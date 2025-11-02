@@ -145,3 +145,24 @@ canvas.particles {
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
+/* ===== Chapter1 Mobile Fix ===== */
+@media (max-width: 768px) {
+  .chapter {
+    height: 100dvh !important;  /* ← 表示領域ちょうどに戻す */
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+
+  .chapter-text {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    padding: 0 1.5rem;
+    top: 48% !important; /* ← 文字位置補正 */
+    transform: translateY(-50%);
+  }
+
+  canvas {
+    width: 100%;
+    height: 100dvh !important;
+  }
+}
