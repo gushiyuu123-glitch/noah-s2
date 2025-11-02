@@ -1,80 +1,103 @@
+/* =============================
+   🌌 NOAH Season 2 — Intro 完全版
+   （静寂 × 透明感 × 冷光の世界）
+   ============================= */
+
 .intro {
   position: relative;
   width: 100%;
   height: 100vh;
-  background: radial-gradient(circle at center, #0b0c10 40%, #020202 100%);
   overflow: hidden;
-  transition: background 2s ease;
+
+  /* 🎨 背景を明確に・コントラスト強化 */
+  background: radial-gradient(circle at 50% 45%, #0a0c10 25%, #030406 85%, #000 100%);
+  filter: contrast(1.15) brightness(0.92);
+  transition: background 2s ease, filter 1.5s ease;
 }
 
+/* ===== ノイズ層（質感は残しつつシャープに） ===== */
 #noise {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.07; /* 優しいノイズ */
+  opacity: 0.035; /* ← 弱めてぼやけ防止 */
   image-rendering: pixelated;
   pointer-events: none;
+  mix-blend-mode: soft-light; /* 透明な質感に */
 }
 
+/* ===== テキスト ===== */
 .intro-text {
   position: absolute;
   bottom: 50%;
   width: 100%;
   text-align: center;
   font-family: "Shippori Mincho B1", "Cormorant Garamond", serif;
-  color: #d0d0d0;
+  color: #d8d8d8;
   font-size: 1.1rem;
   letter-spacing: 0.08em;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
   animation: fadeIn 2s ease forwards;
+  z-index: 2;
 }
 
-/* ===== 各フェーズの演出 ===== */
+/* ===== 各フェーズ ===== */
 .phase-0 .intro-text p {
-  color: #888;
-  opacity: 0.8;
+  color: #777;
+  opacity: 0.7;
 }
 
 .phase-1 .intro-text p {
-  color: #8fdfff;
-  text-shadow: 0 0 12px rgba(120, 190, 255, 0.6);
+  color: #aee2ff;
+  text-shadow: 0 0 10px rgba(130, 200, 255, 0.5);
   animation: fadeIn 1s ease;
 }
 
 .phase-2 .intro-text p {
-  color: #ff7777;
-  text-shadow: 0 0 8px rgba(255, 80, 80, 0.5);
+  color: #ff7a7a;
+  text-shadow: 0 0 8px rgba(255, 100, 100, 0.45);
   animation: glitch 0.4s infinite;
 }
 
 .phase-3 .intro-text p {
-  color: #aef6c7;
-  text-shadow: 0 0 6px rgba(120, 255, 160, 0.4);
+  color: #b6ffd8;
+  text-shadow: 0 0 10px rgba(120, 255, 180, 0.4);
   animation: fadeIn 1.4s ease;
 }
 
-/* フラッシュ削除・穏やかに */
+/* ===== フラッシュ演出 ===== */
 .flash {
   position: absolute;
   inset: 0;
-  background: rgba(200, 200, 200, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   opacity: 0;
   transition: opacity 1s ease;
 }
 .phase-3 .flash {
-  opacity: 0.2;
-  animation: flashFade 1.5s ease forwards;
+  opacity: 0.15;
+  animation: flashFade 1.6s ease forwards;
 }
 
-/* ===== Keyframes ===== */
+/* ===== スキャンライン ===== */
+.scanline {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  animation: scanMove 2s ease-in-out forwards;
+  z-index: 3;
+}
 
+/* ===== アニメーション群 ===== */
 @keyframes fadeIn {
   0% { opacity: 0; transform: translateY(1rem); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes flashFade {
-  0% { opacity: 0.2; }
+  0% { opacity: 0.15; }
   100% { opacity: 0; }
 }
 
@@ -86,22 +109,29 @@
   80% { transform: translate(1px, 1px); }
 }
 
-.alert {
-  color: #ff4444;
-  font-weight: bold;
-}
-/* ===== 起動スキャンライン ===== */
-.scanline {
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.25);
-  animation: scanMove 2s ease-in-out forwards;
-}
-
 @keyframes scanMove {
   0% { top: 100%; opacity: 0; }
   40% { opacity: 1; }
   100% { top: 0%; opacity: 0; }
+}
+
+/* ===== アラート（赤警告） ===== */
+.alert {
+  color: #ff4444;
+  font-weight: bold;
+}
+
+/* ===== スマホ最適化 ===== */
+@media (max-width: 768px) {
+  .intro-text {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    padding: 0 1rem;
+  }
+  #noise {
+    opacity: 0.025;
+  }
+  .flash {
+    opacity: 0.1;
+  }
 }
