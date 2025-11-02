@@ -1,0 +1,158 @@
+/* =============================
+   🌒 CHAPTER 03 – 声なき異変
+   ============================= */
+
+.chapter-container.ch3 {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: url("/images/ch3-lab-night.jpg") center center / cover no-repeat fixed;
+  font-family: "Shippori Mincho B1", "Cormorant Garamond", serif;
+  color: #f8f8f8;
+  padding: 12vh 0 8vh;
+  transition: background 1.2s ease;
+}
+
+.chapter-container.ch3.flash-active {
+  background: url("/images/ch3-heart-glitch.jpg") center center / cover no-repeat fixed;
+  transition: background 0.6s ease-in-out;
+}
+
+.chapter-container.ch3::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 10, 0.45);
+  z-index: 0;
+}
+
+canvas.particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===== タイトル演出：心拍→グリッチ→安定 ===== */
+.chapter-title {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  font-size: 1.8rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 2.6rem;
+  transition: all 1.2s ease;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.chapter-title.heartbeat {
+  opacity: 1;
+  transform: translateY(0);
+  color: #ff8080;
+  text-shadow: 0 0 20px rgba(255, 80, 80, 0.5);
+  animation: pulseRed 2.2s ease-in-out infinite;
+}
+
+@keyframes pulseRed {
+  0%, 100% { text-shadow: 0 0 14px rgba(255, 80, 80, 0.25); transform: scale(1); }
+  50% { text-shadow: 0 0 28px rgba(255, 80, 80, 0.6); transform: scale(1.03); }
+}
+
+.chapter-title.glitch-red {
+  animation: glitchRed 0.3s ease-in-out 3;
+  color: #ff6a6a;
+  text-shadow:
+    -1px 0 0 rgba(255, 40, 40, 0.8),
+    1px 0 0 rgba(100, 180, 255, 0.6);
+}
+
+@keyframes glitchRed {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-2px, 2px); }
+  80% { transform: translate(1px, -1px); }
+}
+
+.chapter-title.stable-red {
+  color: #ffdada;
+  text-shadow: 0 0 18px rgba(255, 120, 120, 0.4);
+  animation: glowRed 5s ease-in-out infinite;
+}
+
+@keyframes glowRed {
+  0%, 100% { text-shadow: 0 0 16px rgba(255, 120, 120, 0.3); }
+  50% { text-shadow: 0 0 28px rgba(255, 100, 100, 0.5); }
+}
+
+/* ===== 本文 ===== */
+.chapter-text {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: all 2s ease 0.8s;
+  line-height: 2.2;
+  font-size: 1.05rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 2;
+}
+
+.chapter-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.noah {
+  color: #a8e6ff;
+  font-style: italic;
+  text-shadow: 0 0 10px rgba(150, 220, 255, 0.8);
+}
+
+/* ===== ボタン ===== */
+.chapter-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: all 1.4s ease 1s;
+  position: relative;
+  z-index: 2;
+}
+
+.chapter-buttons.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter-buttons button {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  padding: 0.6rem 1.8rem;
+  border-radius: 2rem;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chapter-buttons button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+/* =============================
+   🕯 TITLE 共通仕様（全章共通）
+   ============================= */
+.chapter-title {
+  opacity: 1 !important;
+  visibility: visible;
+  transform: translateY(0);
+  transition: none !important;
+  position: relative;
+  z-index: 3;
+}

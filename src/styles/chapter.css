@@ -1,0 +1,147 @@
+.chapter-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: url("/images/ch1-lab-afternoon.jpg") center center / cover no-repeat fixed;
+  font-family: "Shippori Mincho B1", "Cormorant Garamond", serif;
+  color: #f8f8f8;
+  padding: 12vh 0 8vh;
+}
+
+.chapter-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 15, 0.45);
+  z-index: 0;
+}
+
+canvas.particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.chapter-content {
+  position: relative;
+  z-index: 2;
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+/* ===== タイトル演出（粒子形成→グリッチ→安定） ===== */
+.chapter-title {
+  opacity: 0;
+  transform: scale(0.95) translateY(2rem);
+  font-size: 1.8rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 2.6rem;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+  transition: all 1.2s ease;
+}
+
+.chapter-title.particles-in {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  animation: particleGlow 2s ease forwards;
+}
+
+.chapter-title.glitch {
+  animation: glitch-flicker 0.4s ease-in-out 2;
+  color: #c6e2ff;
+  text-shadow:
+    0 0 12px rgba(160, 220, 255, 0.8),
+    -2px 0 0 rgba(255, 50, 50, 0.6),
+    2px 0 0 rgba(50, 255, 255, 0.6);
+}
+
+.chapter-title.stabilized {
+  opacity: 1 !important;
+  visibility: visible;
+  transform: translateY(0);
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(180, 240, 255, 0.4);
+  animation: glowPulse 6s ease-in-out infinite;
+  transition: none; /* ← フェードアウトを完全防止 */
+}
+
+
+@keyframes particleGlow {
+  0% { text-shadow: 0 0 4px rgba(160, 220, 255, 0.2); }
+  50% { text-shadow: 0 0 20px rgba(180, 240, 255, 0.8); }
+  100% { text-shadow: 0 0 14px rgba(180, 240, 255, 0.4); }
+}
+
+@keyframes glitch-flicker {
+  0%, 100% { transform: translate(0, 0); opacity: 1; }
+  25% { transform: translate(-2px, 1px); opacity: 0.9; }
+  50% { transform: translate(2px, -1px); opacity: 1; }
+  75% { transform: translate(-1px, 1px); opacity: 0.95; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { text-shadow: 0 0 12px rgba(180, 240, 255, 0.25); }
+  50% { text-shadow: 0 0 24px rgba(180, 240, 255, 0.45); }
+}
+
+/* ===== 本文 ===== */
+.chapter-text {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: all 2s ease 0.8s;
+  line-height: 2.2;
+  font-size: 1.05rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.chapter-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter-text p { margin-bottom: 1.2rem; }
+
+/* ===== ノアのセリフ ===== */
+.noah {
+  color: #a8e6ff;
+  font-style: italic;
+  text-shadow: 0 0 10px rgba(150, 220, 255, 0.8);
+}
+
+/* ===== ボタン ===== */
+.chapter-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: all 1.6s ease 1s;
+}
+
+.chapter-buttons.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter-buttons button {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  padding: 0.6rem 1.8rem;
+  border-radius: 2rem;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chapter-buttons button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}

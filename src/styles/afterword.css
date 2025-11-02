@@ -1,0 +1,273 @@
+/* src/styles/afterword.css */
+
+/* ===== Reset (局所) ===== */
+.aw-wrap, .aw-wrap * { box-sizing: border-box; }
+
+/* ===== Wrapper ===== */
+.aw-wrap {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  isolation: isolate; /* ブレンドを安全に */
+  --fade-base: 0.0;
+  --text-shadow: 0 1px 0 rgba(0,0,0,.25), 0 8px 24px rgba(0,0,0,.35);
+}
+
+/* ===== 背景動画 ===== */
+.aw-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter:
+    brightness(0.72) /* まぶしさ抑制 */
+    contrast(1.04)
+    saturate(1.02);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.aw-bg.is-ready { opacity: 1; }
+
+/* 失敗時は静止画フォールバック（/public/images/noah-visual.jpg などに差し替えOK） */
+html[data-aw-fallback="1"] .aw-bg { display: none; }
+html[data-aw-fallback="1"] .aw-wrap {
+  background: #000 url("/images/noah-visual.jpg") center/cover no-repeat;
+}
+
+/* ===== 画面トーン（眩しさ対策＆映画調） ===== */
+.aw-gradients { position:absolute; inset:0; pointer-events:none; }
+.aw-vignette {
+  position:absolute; inset:-10%;
+  background:
+    radial-gradient(50% 60% at 50% 45%, rgba(0,0,0,0) 0%, rgba(0,0,0,.15) 60%, rgba(0,0,0,.42) 100%);
+  mix-blend-mode: multiply;
+}
+.aw-sunsoft {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(40% 35% at 52% 18%, rgba(255,240,210,.35) 0%, rgba(255,240,210,0) 55%);
+  opacity: .6;
+}
+
+/* ===== 詩（行ごとにフェードイン） ===== */
+.aw-lines {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 8vh 6vw;
+  text-align: center;
+  pointer-events: none;
+}
+
+.aw-line {
+  margin: .45rem 0;
+  color: #fff;
+  font-family: "Shippori Mincho B1", "Noto Serif JP", serif;
+  font-weight: 500;
+  font-size: clamp(14px, 2.2vw, 22px);
+  line-height: 1.9;
+  letter-spacing: .04em;
+  text-shadow: var(--text-shadow);
+  opacity: 0;
+  transform: translateY(6px);
+  animation: awLineIn .9s ease forwards;
+  animation-delay: calc(0.6s + var(--i) * 0.9s);
+}
+
+.aw-spacer {
+  display: block;
+  height: .6rem;
+}
+
+/* 行アニメ */
+@keyframes awLineIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== ホワイトアウト（光の収束） ===== */
+.aw-iris {
+  position: absolute;
+  inset: -10%;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(circle at 52% 22%, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.0) 45%, rgba(255,255,255,0.05) 60%, rgba(255,255,255,0.12) 75%, rgba(255,255,255,0.18) 100%);
+  transition: opacity .9s ease;
+}
+.aw-iris.to-white {
+  animation: awIrisClose 1.3s ease forwards;
+  animation-delay: .2s;
+}
+
+@keyframes awIrisClose {
+  0% {
+    background: radial-gradient(circle at 52% 22%, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.12) 60%, rgba(255,255,255,0.22) 100%);
+    opacity: 1;
+  }
+  70% {
+    background: radial-gradient(circle at 52% 22%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.98) 75%, rgba(255,255,255,1) 100%);
+    opacity: 1;
+  }
+  100% {
+    background: #fff;
+    opacity: 1;
+  }
+}
+
+/* ===== ティーザー（SEASON 3） ===== */
+.aw-teaser {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  animation: awTeaserIn .8s ease forwards;
+}
+@keyframes awTeaserIn { from { opacity: 0; } to { opacity: 1; } }
+
+.aw-teaser-inner {
+  text-align: center;
+  color: #111;
+  padding: 2rem;
+}
+
+.aw-teaser-line {
+  margin: 0;
+  font-family: "Cormorant Garamond", "Noto Serif JP", serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-rendering: optimizeLegibility;
+}
+.aw-teaser-line:first-child {
+  font-weight: 700;
+  font-size: clamp(26px, 5vw, 54px);
+}
+.aw-teaser-line.sub {
+  margin-top: .25rem;
+  font-weight: 500;
+  font-size: clamp(16px, 2.6vw, 24px);
+  opacity: .85;
+}
+
+/* ナビボタン（任意） */
+.aw-actions {
+  margin-top: 2.2rem;
+  display: flex;
+  gap: .8rem;
+  justify-content: center;
+}
+.aw-actions button {
+  appearance: none;
+  border: 1px solid rgba(0,0,0,.2);
+  background: #111;
+  color: #fff;
+  padding: .7rem 1.2rem;
+  border-radius: 10px;
+  font-family: "Cormorant Garamond", "Noto Serif JP", serif;
+  font-size: clamp(12px, 1.6vw, 14px);
+  letter-spacing: .04em;
+  transition: transform .2s ease, opacity .2s ease, background .2s ease;
+}
+.aw-actions button:hover { transform: translateY(-2px); background:#222; }
+
+/* ===== アクセシビリティ：動き軽減 ===== */
+@media (prefers-reduced-motion: reduce) {
+  .aw-line, .aw-iris, .aw-teaser { animation: none !important; }
+  .aw-line { opacity: 1; transform: none; }
+}
+.aw-fallback {
+  background: url("/images/afterword-fallback.jpg") center/cover no-repeat;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+/* ======================================
+   ☁️ 光・ノイズ・呼吸フェード演出
+   ====================================== */
+
+/* 光の“呼吸”層 */
+.aw-sunsoft {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(255, 240, 200, 0.15),
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(0, 0, 0, 0.0) 75%
+  );
+  animation: aw-breathe 7s ease-in-out infinite;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* 呼吸（光の脈動）アニメーション */
+@keyframes aw-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.04);
+    filter: blur(2px);
+  }
+}
+
+/* ノイズ層（漂う粒子感） */
+.aw-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/noise-texture.png");
+  background-size: 200px 200px;
+  opacity: 0.08;
+  animation: aw-noise-move 12s linear infinite;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes aw-noise-move {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-20px, 15px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* 既存の光層の下に配置するための順序 */
+.aw-gradients {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+/* ======================================
+   ☁️ 余韻フェーズ（呼吸する静寂）
+   ====================================== */
+.aw-wrap.idle {
+  animation: awBreatheIdle 6s ease-in-out infinite;
+  filter: brightness(1);
+}
+
+@keyframes awBreatheIdle {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.08);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}

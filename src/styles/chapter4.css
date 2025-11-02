@@ -1,0 +1,176 @@
+/* =============================
+   🧊 CHAPTER 04 – 境界の崩壊 (冷青→赤→白)
+   ============================= */
+
+/* =============================
+   STRUCTURE & BACKGROUND
+   ============================= */
+.ch4 {
+  background:
+    url("/images/ch4-rain-conflict.jpg") center center / cover no-repeat fixed,
+    linear-gradient(180deg, #0b1220 0%, #0a0f18 60%, #0a0c12 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 暗幕レイヤー（雨の湿度感） */
+.ch4::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 8, 16, 0.45);
+  z-index: 0;
+}
+
+/* =============================
+   FLASH EFFECTS
+   ============================= */
+
+/* ホワイトアウト一閃（雷） */
+.whiteout {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity 0.35s ease;
+}
+
+.whiteout.on {
+  opacity: 0.28; /* 柔らかい白光 */
+}
+
+/* =============================
+   TITLE ANIMATION
+   ============================= */
+
+/* A. 冷青Pulse（出現） */
+.chapter-title.cold-pulse {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  color: #bfe2ff;
+  text-shadow: 0 0 16px rgba(150, 210, 255, 0.6);
+  animation: coldPulse 1.1s ease-in-out infinite;
+}
+
+@keyframes coldPulse {
+  0%, 100% { text-shadow: 0 0 14px rgba(150,210,255,0.45); }
+  50%      { text-shadow: 0 0 26px rgba(160,220,255,0.9); }
+}
+
+/* B. 赤青グリッチ（ノイズ反応） */
+.chapter-title.rb-glitch {
+  animation: rbGlitch 0.36s ease-in-out 3;
+  color: #d9f0ff;
+  text-shadow:
+    -1px 0 0 rgba(255, 70, 70, 0.9),
+     1px 0 0 rgba(90, 180, 255, 0.9);
+}
+
+@keyframes rbGlitch {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-2px, 2px); }
+  80% { transform: translate(1px, -1px); }
+}
+
+/* C. 安定後（残留・冷息のような明滅） */
+.chapter-title.stable-cold {
+  opacity: 1 !important;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  color: #e9f6ff;
+  text-shadow: 0 0 18px rgba(170, 230, 255, 0.45);
+  animation: coldBreath 6s ease-in-out infinite;
+  transition: none;
+}
+
+@keyframes coldBreath {
+  0%, 100% { text-shadow: 0 0 14px rgba(170,230,255,0.3); }
+  50%      { text-shadow: 0 0 26px rgba(170,230,255,0.55); }
+}
+
+/* =============================
+   NOAH SPEECH COLOR TRANSITION
+   ============================= */
+
+/* A. 冷静フェーズ（青） */
+.noah {
+  color: #a8ddff;
+  font-style: italic;
+  text-shadow: 0 0 10px rgba(160, 220, 255, 0.7);
+  transition: color 2s ease, text-shadow 2s ease;
+}
+
+/* B. 不安定フェーズ（白ノイズ寄り） */
+.noah.phase-b {
+  color: #d4ecff;
+  text-shadow:
+    0 0 10px rgba(200, 240, 255, 0.7),
+    0 0 28px rgba(255, 255, 255, 0.35);
+}
+
+/* C. 暴走フェーズ（赤警告） */
+.noah.phase-c {
+  color: #ff6666;
+  text-shadow:
+    0 0 14px rgba(255, 80, 80, 0.9),
+    0 0 32px rgba(255, 120, 120, 0.6);
+  animation: flickerRed 1.8s infinite ease-in-out;
+}
+
+@keyframes flickerRed {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.85; }
+  60% { opacity: 0.95; }
+}
+
+/* D. 静寂・白灰（フェードアウトの余韻） */
+.noah.phase-d {
+  color: #ececec;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* =============================
+   MISC / BUTTONS / VISIBILITY
+   ============================= */
+.chapter-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1.6s ease;
+}
+
+.chapter-buttons.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1.8s ease;
+}
+/* =========================================
+   🤍 NOAH'S INNER THOUGHTS (全章共通)
+   ========================================= */
+
+.noah-thought {
+  color: #c6aaff;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 0 12px rgba(180, 140, 255, 0.5),
+    0 0 28px rgba(200, 180, 255, 0.25);
+  transition: color 1.6s ease, text-shadow 1.6s ease;
+}
+
+/* 混乱・暴走時 */
+.noah-thought.intense {
+  color: #e7dbff;
+  text-shadow:
+    0 0 14px rgba(220, 200, 255, 0.7),
+    0 0 36px rgba(255, 255, 255, 0.35);
+  animation: thoughtPulse 4s ease-in-out infinite;
+}
+
+@keyframes thoughtPulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 14px rgba(220, 200, 255, 0.5); }
+  50% { opacity: 0.85; text-shadow: 0 0 26px rgba(255, 255, 255, 0.45); }
+}

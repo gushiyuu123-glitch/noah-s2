@@ -1,0 +1,66 @@
+/* ======================================
+   💬 ノアのセリフ演出（視認性アップ版）
+   ====================================== */
+
+/* ====== 通常：青⇄赤ノイズ（穏やか） ====== */
+.noah {
+  display: inline-block;
+  color: #7ad3ff;
+  -webkit-text-stroke: 0.4px rgba(255,255,255,0.15);
+  text-shadow:
+    0 0 6px rgba(122,211,255,0.6),
+    0 0 14px rgba(122,211,255,0.45);
+  animation:
+    noahPulse 5s ease-in-out infinite,
+    noahGlitch 3s steps(3, end) infinite;
+  mix-blend-mode: screen;
+  transition: color 0.6s ease, text-shadow 0.6s ease;
+}
+
+/* 呼吸フェード（コントラスト重視） */
+@keyframes noahPulse {
+  0%, 100% {
+    color: #84d8ff;
+    text-shadow:
+      0 0 6px rgba(132,216,255,0.6),
+      0 0 14px rgba(132,216,255,0.45);
+  }
+  50% {
+    color: #ff5c5c;
+    text-shadow:
+      0 0 8px rgba(255,90,90,0.7),
+      0 0 18px rgba(255,70,70,0.55);
+  }
+}
+
+/* 微ノイズ（滲みを抑えたタイプ） */
+@keyframes noahGlitch {
+  0% { transform: translate(0,0); opacity: 1; filter: hue-rotate(0deg); }
+  45% { transform: translate(0.15px,-0.15px); opacity: 0.97; }
+  50% { filter: hue-rotate(1.5deg); }
+  55% { transform: translate(-0.15px,0.15px); opacity: 1; }
+  100% { transform: translate(0,0); opacity: 1; filter: hue-rotate(0deg); }
+}
+
+/* ====== 4章以降：静かな赤ノイズフェーズ ====== */
+.ch4 .noah,
+.ch5 .noah,
+.ch6 .noah {
+  color: #ff6363;
+  -webkit-text-stroke: 0.4px rgba(255,255,255,0.1);
+  text-shadow:
+    0 0 8px rgba(255,70,70,0.7),
+    0 0 18px rgba(255,60,60,0.55);
+  animation:
+    noahGlitchRed 3s steps(4, end) infinite;
+  mix-blend-mode: screen;
+}
+
+/* 赤フェーズ：静かな電子ノイズ */
+@keyframes noahGlitchRed {
+  0% { transform: translate(0,0); opacity: 1; filter: brightness(1); }
+  25% { transform: translate(-0.25px,0.2px); opacity: 0.96; filter: brightness(1.05); }
+  50% { transform: translate(0.2px,-0.25px); opacity: 0.98; filter: brightness(0.97); }
+  75% { transform: translate(-0.15px,0.3px); opacity: 0.97; filter: brightness(1.03); }
+  100% { transform: translate(0,0); opacity: 1; filter: brightness(1); }
+}

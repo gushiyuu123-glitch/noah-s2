@@ -1,0 +1,26 @@
+/* ==========================
+   🪶 NOAH Season 2 Signature
+   ========================== */
+.noah-signature {
+  position: fixed;
+  bottom: 0.8rem;
+  right: 1.2rem;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.22);
+  text-shadow:
+    0 0 6px rgba(0,0,0,0.4),
+    0 0 10px rgba(255,255,255,0.05);
+  mix-blend-mode: lighten;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeInSoft 3.6s ease 5s forwards;
+  user-select: none;
+  z-index: 9999;
+}
+
+@keyframes fadeInSoft {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
