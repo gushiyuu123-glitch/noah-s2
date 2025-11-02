@@ -26,30 +26,30 @@ export default function Intro() {
       const imageData = ctx.createImageData(w, h);
       const data = imageData.data;
 
-      // ===== ノイズ背景（軽ぼやけ仕様）=====
+      // ===== ノイズ背景 =====
       for (let i = 0; i < data.length; i += 4) {
         const gray = Math.random() * 255;
         data[i] = gray;
         data[i + 1] = gray;
         data[i + 2] = gray;
-        data[i + 3] = 10; // ← 15 → 10：軽やかで透け感アップ
+        data[i + 3] = 15;
       }
       ctx.putImageData(imageData, 0, 0);
 
       // ===== 光の円（ノアの瞳） =====
       const time = Date.now() * 0.001;
-      const radius = 140 + Math.sin(time * 2) * 6; // ← 動きも少し柔らかく
+      const radius = 140 + Math.sin(time * 2) * 8;
       const grad = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, radius);
-      grad.addColorStop(0, "rgba(255,255,255,0.05)");
+      grad.addColorStop(0, "rgba(255,255,255,0.08)");
       grad.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
 
       // ===== 赤ノイズ（制御の乱れ） =====
-      if (phase === 2 && Math.random() < 0.0025) {
+      if (phase === 2 && Math.random() < 0.003) {
         const x = Math.random() * w;
         const y = Math.random() * h;
-        ctx.fillStyle = "rgba(255,50,50,0.2)";
+        ctx.fillStyle = "rgba(255,50,50,0.25)";
         ctx.fillRect(x, y, 2, 2);
       }
 
