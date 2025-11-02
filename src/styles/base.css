@@ -97,3 +97,77 @@ section {
   right: 0.8rem;
   font-size: 0.65rem;
 }
+/* ===== 7. グローバルスケール補正（全体の拡大を抑える） ===== */
+@media (max-width: 768px) {
+  html {
+    font-size: 13.5px; /* ← 全体をさらに -10% でコンパクト化 */
+  }
+  body {
+    transform: scale(0.98);
+    transform-origin: center top;
+  }
+}
+
+/* ===== 8. Canvas系背景のスケールバランス補正 ===== */
+@media (max-width: 768px) {
+  canvas {
+    max-width: 100vw;
+    height: auto;
+  }
+}
+/* ===== 9. モバイル時の画像・動画スケール調整 ===== */
+@media (max-width: 768px) {
+  img, video {
+    max-width: 100%;
+    height: auto !important;
+    object-fit: contain !important; /* ← coverだと縦に引き伸ばされる */
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* 背景画像用 (例: heroセクションやchapter背景) */
+  .hero, .chapter-bg, .prologue-bg {
+    background-size: contain !important;
+    background-position: center top;
+  }
+
+  /* Canvasも調整 */
+  canvas {
+    width: 100vw !important;
+    height: auto !important;
+  }
+}
+/* ===== 10. モバイル時の全体スケール補正 ===== */
+@media (max-width: 768px) {
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+    max-width: 100vw;
+    font-size: 13.5px; /* ← 全体を10〜15%小さく */
+    transform: scale(0.97);
+    transform-origin: center top;
+  }
+
+  /* 画像・動画の過拡大対策 */
+  img, video, canvas {
+    max-width: 100%;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* 背景固定要素（heroやchapter背景）のはみ出し防止 */
+  .intro,
+  .chapter,
+  .book,
+  .prologue,
+  .afterword {
+    width: 100%;
+    height: auto !important;
+    min-height: 100vh;
+    overflow: hidden;
+    background-size: contain !important;
+    background-position: center top;
+  }
+}
