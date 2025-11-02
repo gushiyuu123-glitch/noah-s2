@@ -1,4 +1,7 @@
-/* src/styles/base.css */
+/* ======================================
+   🌌 NOAH Season 2 — Base + Mobile Optimized
+   ====================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -20,6 +23,7 @@ a {
 h1, h2, h3 {
   font-weight: normal;
 }
+
 /* ======================================
    📱 NOAH Season 2 Responsive Base
    ====================================== */
@@ -37,6 +41,7 @@ html, body {
     font-size: 15px;
   }
 }
+
 @media (max-width: 768px) {
   body {
     font-size: 14px;
@@ -48,6 +53,7 @@ html, body {
 section {
   padding: 4rem 8%;
 }
+
 @media (max-width: 768px) {
   section {
     padding: 3rem 1.5rem;
@@ -60,6 +66,7 @@ section {
   line-height: 2.1;
   letter-spacing: 0.03em;
 }
+
 @media (max-width: 768px) {
   .chapter-text p {
     font-size: 0.95rem;
@@ -72,6 +79,7 @@ section {
   font-size: 1.4rem;
   top: 5%;
 }
+
 @media (max-width: 768px) {
   .chapter-title-fixed {
     font-size: 1.1rem;
@@ -84,6 +92,7 @@ section {
   font-size: 1rem;
   padding: 0.8rem 1.4rem;
 }
+
 @media (max-width: 768px) {
   .next-chapter {
     font-size: 0.9rem;
@@ -97,77 +106,46 @@ section {
   right: 0.8rem;
   font-size: 0.65rem;
 }
-/* ===== 7. グローバルスケール補正（全体の拡大を抑える） ===== */
+
+/* ======================================
+   📲 Global Mobile Optimization
+   ====================================== */
+
 @media (max-width: 768px) {
+
+  /* 全体スケール＆フォント */
   html {
-    font-size: 13.5px; /* ← 全体をさらに -10% でコンパクト化 */
+    font-size: 13.5px; /* 全体を10〜15%コンパクトに */
   }
+
   body {
-    transform: scale(0.98);
-    transform-origin: center top;
-  }
-}
-
-/* ===== 8. Canvas系背景のスケールバランス補正 ===== */
-@media (max-width: 768px) {
-  canvas {
-    max-width: 100vw;
-    height: auto;
-  }
-}
-/* ===== 9. モバイル時の画像・動画スケール調整 ===== */
-@media (max-width: 768px) {
-  img, video {
-    max-width: 100%;
-    height: auto !important;
-    object-fit: contain !important; /* ← coverだと縦に引き伸ばされる */
-    display: block;
-    margin: 0 auto;
-  }
-
-  /* 背景画像用 (例: heroセクションやchapter背景) */
-  .hero, .chapter-bg, .prologue-bg {
-    background-size: contain !important;
-    background-position: center top;
-  }
-
-  /* Canvasも調整 */
-  canvas {
-    width: 100vw !important;
-    height: auto !important;
-  }
-}
-/* ===== 10. モバイル時の全体スケール補正 ===== */
-@media (max-width: 768px) {
-  html, body {
-    width: 100%;
-    overflow-x: hidden;
-    max-width: 100vw;
-    font-size: 13.5px; /* ← 全体を10〜15%小さく */
-    transform: scale(0.97);
+    transform: scale(0.985);
     transform-origin: center top;
   }
 
-  /* 画像・動画の過拡大対策 */
+  /* Canvas・画像・動画のサイズ安定化 */
   img, video, canvas {
     max-width: 100%;
     height: auto !important;
-    object-fit: contain !important;
+    object-fit: contain;
     display: block;
     margin: 0 auto;
   }
 
-  /* 背景固定要素（heroやchapter背景）のはみ出し防止 */
+  /* 背景画像を自然に整える（contain→coverへ復帰） */
+  .hero,
+  .chapter-bg,
+  .prologue-bg,
   .intro,
   .chapter,
   .book,
   .prologue,
   .afterword {
     width: 100%;
-    height: auto !important;
-    min-height: 100vh;
+    height: auto;
+    min-height: 100dvh; /* 実際の表示領域に合わせる */
     overflow: hidden;
-    background-size: contain !important;
-    background-position: center top;
+    background-size: cover;
+    background-position: center center;
   }
 }
