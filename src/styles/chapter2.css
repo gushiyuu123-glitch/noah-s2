@@ -1,93 +1,113 @@
 /* =============================
-   🌒 CHAPTER 02 – 正義の罠
+   🌒 CHAPTER 02 – 正義の罠（最適化版）
    ============================= */
 
 .chapter-container.ch2 {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: url("/images/ch2-glass-sunset.jpg") center center / cover no-repeat fixed;
-  font-family: "Shippori Mincho B1", "Cormorant Garamond", serif;
-  color: #f8f8f8;
   overflow-x: hidden;
+  color: #f8f8f8;
+  font-family: "Shippori Mincho B1", "Cormorant Garamond", serif;
   padding: 12vh 0 8vh;
 }
 
+/* === 背景（pictureタグ対応） === */
+.chapter-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.chapter-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(0.78) contrast(1.05);
+  transition: filter 1s ease;
+}
+
+/* === 背景のトーンレイヤー === */
 .chapter-container.ch2::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(10, 0, 10, 0.45);
-  z-index: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 0, 10, 0.5) 0%,
+    rgba(20, 0, 20, 0.35) 50%,
+    rgba(10, 0, 20, 0.55) 100%
+  );
+  z-index: 1;
 }
 
-/* 粒子 */
+/* === 粒子 === */
 canvas.particles {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
 }
 
-/* ===== コンテンツ ===== */
+/* === コンテンツ === */
 .chapter-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   max-width: 740px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-/* ===== タイトル演出 ===== */
+/* === タイトル演出 === */
 .chapter-title {
   opacity: 0;
   font-size: 1.7rem;
   letter-spacing: 0.08em;
   margin-bottom: 2.6rem;
-  text-shadow: 0 0 12px rgba(255, 200, 200, 0.2);
+  text-shadow: 0 0 12px rgba(255, 180, 180, 0.25);
   transform: scale(0.9);
   transition: all 1.2s ease;
 }
 
-/* 光が集まるように形成 */
+/* 集束フェーズ */
 .chapter-title.gather {
   opacity: 1;
   transform: scale(1);
-  text-shadow: 0 0 18px rgba(255, 120, 120, 0.4);
+  text-shadow: 0 0 18px rgba(255, 120, 120, 0.45);
 }
 
-/* 一瞬のノイズ閃光 */
+/* ノイズ閃光フェーズ */
 .chapter-title.glitch {
   opacity: 1;
-  color: #ffebeb;
+  color: #ffefef;
   animation: glitchFlash 0.4s ease-in-out 2;
   text-shadow:
-    0 0 12px rgba(255, 90, 90, 0.8),
-    1px 0 rgba(255, 200, 200, 0.6),
-    -1px 0 rgba(180, 240, 255, 0.6);
+    0 0 14px rgba(255, 100, 100, 0.8),
+    2px 0 rgba(255, 200, 200, 0.6),
+    -2px 0 rgba(180, 240, 255, 0.6);
 }
 
 /* 安定フェーズ */
 .chapter-title.stable {
   opacity: 1;
   color: #fff;
-  text-shadow: 0 0 16px rgba(255, 220, 220, 0.4);
+  text-shadow: 0 0 18px rgba(255, 200, 200, 0.4);
   animation: glowPulse2 6s ease-in-out infinite;
 }
 
-/* ===== アニメーション ===== */
+/* === アニメーション === */
 @keyframes glitchFlash {
   0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.03); opacity: 0.8; }
+  50% { transform: scale(1.03); opacity: 0.85; }
 }
 
 @keyframes glowPulse2 {
-  0%, 100% { text-shadow: 0 0 12px rgba(255, 220, 220, 0.25); }
-  50% { text-shadow: 0 0 24px rgba(255, 220, 220, 0.45); }
+  0%, 100% { text-shadow: 0 0 14px rgba(255, 200, 200, 0.25); }
+  50% { text-shadow: 0 0 26px rgba(255, 200, 200, 0.45); }
 }
 
-/* ===== 本文 ===== */
+/* === 本文 === */
 .chapter-text {
   opacity: 0;
   transform: translateY(2rem);
@@ -104,14 +124,14 @@ canvas.particles {
   margin-bottom: 1.2rem;
 }
 
-/* ===== ノアのセリフ ===== */
+/* === ノアのセリフ === */
 .noah {
   color: #a8e6ff;
   font-style: italic;
   text-shadow: 0 0 10px rgba(150, 220, 255, 0.7);
 }
 
-/* ===== ボタン ===== */
+/* === ボタン === */
 .chapter-buttons {
   display: flex;
   justify-content: space-between;
@@ -140,4 +160,28 @@ canvas.particles {
 .chapter-buttons button:hover {
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+/* === スマホ対応 === */
+@media (max-width: 768px) {
+  .chapter-bg img {
+    object-position: center top;
+    filter: brightness(0.65) contrast(1.05);
+  }
+
+  .chapter-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .chapter-text {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    padding: 0 1.4rem;
+  }
+
+  .chapter-buttons button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1.4rem;
+  }
 }

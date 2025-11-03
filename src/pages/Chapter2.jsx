@@ -1,9 +1,10 @@
+// src/pages/Chapter2.jsx
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/chapter2.css";
 
 export default function Chapter2() {
-  const [phase, setPhase] = useState(0); // 0=非表示, 1=集束, 2=ノイズ閃光, 3=安定
+  const [phase, setPhase] = useState(0);
   const [showText, setShowText] = useState(false);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
@@ -44,7 +45,6 @@ export default function Chapter2() {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       particles.forEach((p) => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -55,17 +55,34 @@ export default function Chapter2() {
       });
       requestAnimationFrame(draw);
     };
-
     draw();
     return () => window.removeEventListener("resize", resize);
   }, []);
 
   return (
     <div className="chapter-container ch2">
+      {/* 📱 背景切替（PC/SP対応・高速読込） */}
+      <picture className="chapter-bg">
+        <source
+          srcSet="/images/ch2-glass-sunset-mobile.jpg"
+          media="(max-width: 768px)"
+        />
+        <img
+          src="/images/ch2-glass-sunset.jpg"
+          alt="Evening Laboratory — Chapter2"
+          loading="auto"
+          decoding="sync"
+          style={{
+            contentVisibility: "auto",
+            containIntrinsicSize: "100vh",
+          }}
+        />
+      </picture>
+
       <canvas ref={canvasRef} className="particles" />
 
       <div className="chapter-content">
-        {/* ===== タイトル演出 ===== */}
+        {/* ===== タイトル ===== */}
         <h1
           className={`chapter-title ${
             phase === 1
@@ -77,7 +94,7 @@ export default function Chapter2() {
               : ""
           }`}
         >
-           第2章　-正義の罠-
+          第2章　-正義の罠-
         </h1>
 
         {/* ===== 本文 ===== */}
