@@ -18,12 +18,25 @@ export default function Book() {
 
   return (
     <div className="toc-fullscreen">
-      {/* 背景挿絵 */}
-      <img src="/images/noah-visual.jpg" alt="Noah Visual" className="toc-bg" />
+      {/* 🎨 背景切替 — PCとスマホで自動 */}
+      <picture className="toc-bg">
+        <source
+          srcSet="/images/noah-visual-mobile.jpg"
+          media="(max-width: 768px)"
+        />
+        <img
+          src="/images/noah-visual.jpg"
+          alt="NOAH Visual Background"
+          loading="eager"
+          decoding="async"
+        />
+      </picture>
+
       <div className="toc-overlay" />
 
       <div className="toc-content">
         <h2 className="toc-title">NOAH — Reconstructing the Mind</h2>
+
         <ul className="chapter-list">
           {chapters.map((ch) => (
             <li key={ch.id} onClick={() => navigate(`/${ch.id}`)}>

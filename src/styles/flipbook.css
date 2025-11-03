@@ -1,3 +1,7 @@
+/* ===============================
+   📖 NOAH Season 2 — BOOK PAGE
+   =============================== */
+
 /* ===== 画面全体構成 ===== */
 .toc-fullscreen {
   position: relative;
@@ -8,19 +12,22 @@
   color: #f0f0f0;
 }
 
-/* ===== 背景画像（本の挿絵） ===== */
+/* ===== 背景画像（<picture>で切替） ===== */
 .toc-bg {
   position: absolute;
   inset: 0;
+  z-index: 0;
+}
+.toc-bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 45%;
   filter: brightness(0.45) blur(2px);
   transform: scale(1.05);
   transition: transform 6s ease;
 }
-
-.toc-fullscreen:hover .toc-bg {
+.toc-fullscreen:hover .toc-bg img {
   transform: scale(1);
 }
 
@@ -29,6 +36,7 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 50% 40%, rgba(0,0,0,0.25), rgba(0,0,0,0.7) 80%);
+  z-index: 1;
 }
 
 /* ===== コンテンツ配置 ===== */
@@ -68,7 +76,6 @@
   color: #ddd;
   transition: all 0.4s ease;
   cursor: pointer;
-  position: relative;
 }
 
 .chapter-list li span {
@@ -78,7 +85,6 @@
   transition: all 0.3s ease;
 }
 
-/* ===== Hover演出 ===== */
 .chapter-list li:hover span {
   color: #aee4ff;
   border-bottom: 1px solid rgba(120, 200, 255, 0.6);
@@ -98,7 +104,6 @@
   transition: all 0.4s ease;
   backdrop-filter: blur(5px);
 }
-
 .start-btn:hover {
   background: rgba(120, 200, 255, 0.1);
   border-color: rgba(120, 200, 255, 0.6);
@@ -109,4 +114,51 @@
 @keyframes fadeIn {
   0% { opacity: 0; transform: translateY(10px); }
   100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===============================
+   📱 モバイル最適化
+   =============================== */
+@media (max-width: 768px) {
+  .toc-fullscreen {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .toc-bg img {
+    object-fit: cover;            /* 📱縦画像をそのままカバー */
+    object-position: center top;  /* 被写体を上寄せ */
+    filter: brightness(0.5) blur(1.5px);
+    transform: scale(1.02);
+  }
+
+  .toc-overlay {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 90%);
+  }
+
+  .toc-content {
+    padding: 2.5rem 1rem;
+    justify-content: flex-start;
+  }
+
+  .toc-title {
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 2rem;
+  }
+
+  .chapter-list li {
+    margin: 0.6rem 0;
+  }
+
+  .chapter-list li span {
+    font-size: 0.95rem;
+  }
+
+  .start-btn {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.4rem;
+    border-radius: 2rem;
+  }
 }
