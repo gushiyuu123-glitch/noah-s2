@@ -18,17 +18,30 @@ export default function Book() {
 
   return (
     <div className="toc-fullscreen">
-      {/* 🎨 背景切替 — PCとスマホで自動 */}
+      {/* 🎨 背景切替 — WebP優先 + フォールバック */}
       <picture className="toc-bg">
+        {/* ✅ モバイル版 WebP */}
         <source
-          srcSet="/images/noah-visual-mobile.jpg"
+          srcSet="/images/noah-visual-mobile.webp"
+          type="image/webp"
           media="(max-width: 768px)"
         />
+        {/* ✅ PC版 WebP */}
+        <source
+          srcSet="/images/noah-visual.webp"
+          type="image/webp"
+          media="(min-width: 769px)"
+        />
+        {/* 🖼️ フォールバック JPG */}
         <img
           src="/images/noah-visual.jpg"
           alt="NOAH Visual Background"
           loading="eager"
           decoding="async"
+          style={{
+            contentVisibility: "auto",
+            containIntrinsicSize: "100vh",
+          }}
         />
       </picture>
 
