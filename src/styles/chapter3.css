@@ -1,50 +1,32 @@
 /* =============================
-   🌒 CHAPTER 03 – 声なき異変（PC優先＋モバイル最適化）
+   🌒 CHAPTER 03 – 声なき異変
    ============================= */
 
 .chapter-container.ch3 {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  background: url("/images/ch3-lab-night.jpg") center center / cover no-repeat fixed;
   font-family: "Shippori Mincho B1", "Cormorant Garamond", serif;
   color: #f8f8f8;
   padding: 12vh 0 8vh;
-  background-image: url("/images/ch3-lab-night.jpg");
-  background-position: center center;
-  background-repeat: no-repeat; /* ← これが重要 */
-  background-size: cover;       /* ← 全画面に拡大して貼り付ける */
-  background-attachment: fixed; /* ← PCでは固定表示 */
-  background-color: #000;       /* ← 黒チラ防止 */
-  transition: background 0.8s ease-in-out;
+  transition: background 1.2s ease;
 }
 
-/* === フラッシュ時 === */
 .chapter-container.ch3.flash-active {
-  background-image: url("/images/ch3-heart-glitch.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  filter: brightness(1.1) contrast(1.1) saturate(1.1);
+  background: url("/images/ch3-heart-glitch.jpg") center center / cover no-repeat fixed;
   transition: background 0.6s ease-in-out;
 }
 
-/* === 暗幕層 === */
 .chapter-container.ch3::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 0, 10, 0.5) 0%,
-    rgba(10, 0, 15, 0.35) 40%,
-    rgba(10, 0, 20, 0.6) 100%
-  );
+  background: rgba(0, 0, 10, 0.45);
   z-index: 0;
 }
 
-/* === 粒子 === */
 canvas.particles {
   position: absolute;
   inset: 0;
@@ -52,17 +34,7 @@ canvas.particles {
   pointer-events: none;
 }
 
-/* === コンテンツ === */
-.chapter-content {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-/* === タイトル演出 === */
+/* ===== タイトル演出：心拍→グリッチ→安定 ===== */
 .chapter-title {
   opacity: 0;
   transform: translateY(1.5rem);
@@ -72,10 +44,9 @@ canvas.particles {
   transition: all 1.2s ease;
   text-align: center;
   position: relative;
-  z-index: 3;
+  z-index: 2;
 }
 
-/* === 各フェーズ === */
 .chapter-title.heartbeat {
   opacity: 1;
   transform: translateY(0);
@@ -83,15 +54,10 @@ canvas.particles {
   text-shadow: 0 0 20px rgba(255, 80, 80, 0.5);
   animation: pulseRed 2.2s ease-in-out infinite;
 }
+
 @keyframes pulseRed {
-  0%, 100% {
-    text-shadow: 0 0 14px rgba(255, 80, 80, 0.25);
-    transform: scale(1);
-  }
-  50% {
-    text-shadow: 0 0 28px rgba(255, 80, 80, 0.6);
-    transform: scale(1.03);
-  }
+  0%, 100% { text-shadow: 0 0 14px rgba(255, 80, 80, 0.25); transform: scale(1); }
+  50% { text-shadow: 0 0 28px rgba(255, 80, 80, 0.6); transform: scale(1.03); }
 }
 
 .chapter-title.glitch-red {
@@ -101,6 +67,7 @@ canvas.particles {
     -1px 0 0 rgba(255, 40, 40, 0.8),
     1px 0 0 rgba(100, 180, 255, 0.6);
 }
+
 @keyframes glitchRed {
   0%, 100% { transform: translate(0, 0); }
   20% { transform: translate(-1px, 1px); }
@@ -114,12 +81,13 @@ canvas.particles {
   text-shadow: 0 0 18px rgba(255, 120, 120, 0.4);
   animation: glowRed 5s ease-in-out infinite;
 }
+
 @keyframes glowRed {
   0%, 100% { text-shadow: 0 0 16px rgba(255, 120, 120, 0.3); }
   50% { text-shadow: 0 0 28px rgba(255, 100, 100, 0.5); }
 }
 
-/* === 本文 === */
+/* ===== 本文 ===== */
 .chapter-text {
   opacity: 0;
   transform: translateY(2rem);
@@ -127,13 +95,13 @@ canvas.particles {
   line-height: 2.2;
   font-size: 1.05rem;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 2;
 }
+
 .chapter-text.visible {
   opacity: 1;
   transform: translateY(0);
-}
-.chapter-text p {
-  margin-bottom: 1.2rem;
 }
 
 .noah {
@@ -142,7 +110,7 @@ canvas.particles {
   text-shadow: 0 0 10px rgba(150, 220, 255, 0.8);
 }
 
-/* === ボタン === */
+/* ===== ボタン ===== */
 .chapter-buttons {
   display: flex;
   justify-content: space-between;
@@ -150,11 +118,15 @@ canvas.particles {
   opacity: 0;
   transform: translateY(2rem);
   transition: all 1.4s ease 1s;
+  position: relative;
+  z-index: 2;
 }
+
 .chapter-buttons.visible {
   opacity: 1;
   transform: translateY(0);
 }
+
 .chapter-buttons button {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -168,60 +140,19 @@ canvas.particles {
   cursor: pointer;
   transition: all 0.3s ease;
 }
+
 .chapter-buttons button:hover {
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
-
 /* =============================
-   📱 モバイル最適化
+   🕯 TITLE 共通仕様（全章共通）
    ============================= */
-@media (max-width: 768px) {
-  .chapter-container.ch3 {
-    background-image: url("/images/ch3-lab-night-mobile.jpg");
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: scroll; /* 固定解除 */
-  }
-
-  .chapter-container.ch3.flash-active {
-    background-image: url("/images/ch3-heart-glitch-mobile.jpg");
-  }
-
-  .chapter-content {
-    padding: 0 1.4rem;
-  }
-
-  .chapter-title {
-    font-size: 1.3rem;
-    margin-bottom: 2rem;
-    letter-spacing: 0.04em;
-    text-shadow: 0 0 10px rgba(255, 120, 120, 0.4);
-  }
-
-  .chapter-text {
-    font-size: 0.95rem;
-    line-height: 1.9;
-    padding: 0 0.5rem;
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
-  }
-
-  .chapter-buttons {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .chapter-buttons button {
-    font-size: 0.9rem;
-    padding: 0.5rem 1.4rem;
-  }
-}
-/* タイトルが出た後は絶対に消えないようにする */
-.chapter-title.heartbeat,
-.chapter-title.glitch-red,
-.chapter-title.stable-red {
+.chapter-title {
   opacity: 1 !important;
-  visibility: visible !important;
+  visibility: visible;
+  transform: translateY(0);
   transition: none !important;
+  position: relative;
+  z-index: 3;
 }
