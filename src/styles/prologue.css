@@ -1,5 +1,5 @@
 /* =============================
-   🌅 PROLOGUE – 朝の再起動（PC+SP対応版）
+   🌅 PROLOGUE – 朝の再起動（最適化版）
    ============================= */
 
 .prologue-container {
@@ -12,21 +12,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #0b0c10; /* ✅ 初期黒背景を統一してチラつき防止 */
 }
 
-/* 🎨 背景（<picture>タグ対応） */
+/* 🎨 背景 */
 .prologue-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  background: #0b0c10;
 }
 .prologue-bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 40%;
-  filter: brightness(0.75) blur(1.2px); /* ✅ PC版：光量を約15%落とす */
-  transition: filter 1s ease;
+  opacity: 0; /* ✅ 最初は非表示にしてonLoadでfade-in */
+  transition: opacity 0.6s ease, filter 1s ease;
+  filter: brightness(0.8) blur(1px);
 }
 
 /* ===== 背景フィルター層 ===== */
@@ -43,7 +46,7 @@
   z-index: 1;
 }
 
-/* ===== 再起動の白光エフェクト ===== */
+/* ===== 再起動の白光 ===== */
 .prologue-overlay {
   position: absolute;
   inset: 0;
@@ -56,13 +59,12 @@
   opacity: 0.3;
   animation: pulseLight 8s ease-in-out infinite alternate;
 }
-
 @keyframes pulseLight {
   0%, 100% { opacity: 0.2; }
   50% { opacity: 0.35; }
 }
 
-/* ===== 光の粒子 ===== */
+/* ===== 光粒 ===== */
 .prologue-particles {
   position: absolute;
   inset: 0;
@@ -79,10 +81,6 @@
   text-align: center;
   padding: 0 1.5rem;
   max-width: 640px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
 }
 
 /* ===== タイトル ===== */
@@ -137,20 +135,17 @@
 @media (max-width: 768px) {
   .prologue-bg img {
     object-position: center top;
-    filter: brightness(0.55) blur(0.8px); /* 📱暗さ＋軽いブラーで奥行き維持 */
+    filter: brightness(0.55) blur(0.8px);
   }
-
   .prologue-title {
     font-size: 1.25rem;
     margin-bottom: 1.8rem;
   }
-
   .prologue-text {
     font-size: 0.95rem;
     line-height: 1.9;
     padding: 0 1rem;
   }
-
   .next-btn {
     font-size: 0.9rem;
     padding: 0.5rem 1.4rem;
