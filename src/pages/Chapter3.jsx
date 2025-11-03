@@ -3,24 +3,41 @@ import { useNavigate } from "react-router-dom";
 import "../styles/chapter3.css";
 
 export default function Chapter3() {
-  const [phase, setPhase] = useState(0); // 0=非表示,1=心拍,2=グリッチ,3=安定,4=本文
-  const [flash, setFlash] = useState(false); // 背景切替（心拍画像）
+  const [phase, setPhase] = useState(0);
+  const [flash, setFlash] = useState(false);
+  const [bgSet, setBgSet] = useState({
+    normal: "/images/ch3-lab-night.jpg",
+    flash: "/images/ch3-heart-glitch.jpg",
+  });
+
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
-  // ===== ページ遷移時にスクロール位置リセット =====
+  // ===== 端末サイズによって背景を切替 =====
+  useEffect(() => {
+    const mobile = window.innerWidth <= 768;
+    setBgSet({
+      normal: mobile
+        ? "/images/ch3-lab-night-mobile.jpg"
+        : "/images/ch3-lab-night.jpg",
+      flash: mobile
+        ? "/images/ch3-heart-glitch-mobile.jpg"
+        : "/images/ch3-heart-glitch.jpg",
+    });
+  }, []);
+
+  // ===== スクロール位置リセット =====
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
-  // ===== タイトル演出制御 =====
+  // ===== 演出制御 =====
   useEffect(() => {
     const timers = [
-      setTimeout(() => setPhase(1), 600),   // 心拍開始
+      setTimeout(() => setPhase(1), 600),   // 心拍
       setTimeout(() => setPhase(2), 1600),  // グリッチ
       setTimeout(() => setPhase(3), 2500),  // 安定
       setTimeout(() => setPhase(4), 3500),  // 本文出現
-      // ===== 赤い心拍ノイズ演出 =====
       setTimeout(() => {
         setFlash(true);
         setTimeout(() => setFlash(false), 1000);
@@ -29,7 +46,7 @@ export default function Chapter3() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // ===== 粒子エフェクト（赤×青の干渉） =====
+  // ===== 粒子エフェクト =====
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -63,56 +80,22 @@ export default function Chapter3() {
   }, []);
 
   return (
-    <div className={`chapter-container ch3 ${flash ? "flash-active" : ""}`}>
-      {/* 🎨 背景切替（PC/SP両対応） */}
-      <picture className="chapter-bg">
-        <source
-          srcSet="/images/ch3-lab-night-mobile.jpg"
-          media="(max-width: 768px)"
-        />
-        <img
-          src="/images/ch3-lab-night.jpg"
-          alt="Night Laboratory — Chapter3"
-          loading="auto"
-          decoding="sync"
-          style={{
-            contentVisibility: "auto",
-            containIntrinsicSize: "100vh",
-          }}
-        />
-      </picture>
-
-      {/* ❤️ 心拍フラッシュ時の差し替え背景 */}
-      {flash && (
-        <picture className="chapter-bg flash-layer">
-          <source
-            srcSet="/images/ch3-heart-glitch-mobile.jpg"
-            media="(max-width: 768px)"
-          />
-          <img
-            src="/images/ch3-heart-glitch.jpg"
-            alt="Heartbeat Glitch — Chapter3"
-            loading="auto"
-            decoding="sync"
-            style={{
-              contentVisibility: "auto",
-              containIntrinsicSize: "100vh",
-            }}
-          />
-        </picture>
-      )}
-
+    <div
+      className={`chapter-container ch3 ${flash ? "flash-active" : ""}`}
+      style={{
+        backgroundImage: `url(${flash ? bgSet.flash : bgSet.normal})`,
+      }}
+    >
       <canvas ref={canvasRef} className="particles" />
 
       <div className="chapter-content">
-        {/* ===== タイトル演出 ===== */}
         <h1
           className={`chapter-title ${
             phase === 1
               ? "heartbeat"
               : phase === 2
               ? "glitch-red"
-              : phase === 3
+              : phase >= 3
               ? "stable-red"
               : ""
           }`}
@@ -120,7 +103,6 @@ export default function Chapter3() {
           第3章　-声なき異変-
         </h1>
 
-        {/* ===== 本文 ===== */}
         <div className={`chapter-text ${phase === 4 ? "visible" : ""}`}>
           <p>夜。研究室の照明が半分だけ落ちている。</p>
           <p>アラタは仮眠をとり、ミナは帰宅した。</p>
@@ -160,7 +142,6 @@ export default function Chapter3() {
           <p>なぜか心臓のような装置が脈を打ち続けていた。</p>
         </div>
 
-        {/* ===== ページボタン ===== */}
         <div className={`chapter-buttons ${phase === 4 ? "visible" : ""}`}>
           <button onClick={() => navigate("/ch2")}>← 第2章へ戻る</button>
           <button onClick={() => navigate("/ch4")}>第4章へ進む →</button>
