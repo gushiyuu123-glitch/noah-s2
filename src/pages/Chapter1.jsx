@@ -11,19 +11,27 @@ export default function Chapter1() {
 
   // ===== タイトル演出制御 =====
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(1), 500);
-    const t2 = setTimeout(() => setPhase(2), 1600);
-    const t3 = setTimeout(() => setPhase(3), 2400);
-    const t4 = setTimeout(() => setPhase(4), 3200);
-    return () => [t1, t2, t3, t4].forEach(clearTimeout);
+    const timers = [
+      setTimeout(() => setPhase(1), 500),
+      setTimeout(() => setPhase(2), 1600),
+      setTimeout(() => setPhase(3), 2400),
+      setTimeout(() => setPhase(4), 3200),
+    ];
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   // ===== 粒子エフェクト =====
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const particles = [];
-    const num = 80;
+    const particles = Array.from({ length: 80 }).map(() => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: Math.random() * 1.4 + 0.3,
+      alpha: Math.random() * 0.4 + 0.2,
+      speedY: Math.random() * 0.15 + 0.05,
+      glow: Math.random() * 0.8 + 0.3,
+    }));
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -31,17 +39,6 @@ export default function Chapter1() {
     };
     resize();
     window.addEventListener("resize", resize);
-
-    for (let i = 0; i < num; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.4 + 0.3,
-        alpha: Math.random() * 0.4 + 0.2,
-        speedY: Math.random() * 0.15 + 0.05,
-        glow: Math.random() * 0.8 + 0.3,
-      });
-    }
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -59,12 +56,13 @@ export default function Chapter1() {
       requestAnimationFrame(draw);
     };
     draw();
+
     return () => window.removeEventListener("resize", resize);
   }, []);
 
   return (
     <div className="chapter-container ch1">
-      {/* 📱 背景切替（モバイル対応 + 読み込み最適化） */}
+      {/* 🎨 背景切替 — PC/モバイル即表示最適化版 */}
       <picture className="chapter-bg">
         <source
           srcSet="/images/ch1-lab-afternoon-mobile.jpg"
@@ -73,11 +71,12 @@ export default function Chapter1() {
         <img
           src="/images/ch1-lab-afternoon.jpg"
           alt="Afternoon Laboratory — Chapter1"
-          loading="auto"        // ← eager → auto（優先度をブラウザ任せ）
-          decoding="sync"       // ← async → sync（同時デコードで表示即化）
+          loading="eager"
+          decoding="sync"
+          fetchpriority="high"
           style={{
             contentVisibility: "auto",
-            containIntrinsicSize: "100vh", // ← レイアウト先読み
+            containIntrinsicSize: "100vh",
           }}
         />
       </picture>

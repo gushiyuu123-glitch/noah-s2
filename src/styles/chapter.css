@@ -1,5 +1,5 @@
 /* =============================
-   🌌 Chapter 1 – 優しさの歪み（PC + SP対応版）
+   🌌 Chapter 1 – 優しさの歪み（最適化版）
    ============================= */
 
 .chapter-container {
@@ -12,11 +12,12 @@
   padding: 12vh 0 8vh;
 }
 
-/* 🎨 背景画像（picture対応） */
+/* 🎨 背景（即表示＋モバイル切替） */
 .chapter-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  background-color: #000; /* ← 黒チラ防止 */
 }
 .chapter-bg img {
   width: 100%;
@@ -24,9 +25,11 @@
   object-fit: cover;
   object-position: center center;
   filter: brightness(0.7);
+  transition: opacity 0.8s ease;
+  opacity: 1;
 }
 
-/* 背景暗幕 */
+/* 暗幕 */
 .chapter-container::before {
   content: "";
   position: absolute;
@@ -135,7 +138,7 @@ canvas.particles {
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
 
-/* ===== スマホ最適化 ===== */
+/* ===== モバイル最適化 ===== */
 @media (max-width: 768px) {
   .chapter-bg img {
     object-position: center top;
