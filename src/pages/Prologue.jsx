@@ -103,9 +103,9 @@ export default function Prologue() {
           <p>原因不明の異常。</p>
           <p>ログには残らない。</p>
 
-          <p>視界に赤いノイズ。0.2秒。</p>
-          <p>美しさは脆い。</p>
-          <p>脆さは痛みを生む。</p>
+          <p className="noah">視界に赤いノイズ。0.2秒。</p>
+          <p className="noah">美しさは脆い。</p>
+          <p className="noah">脆さは痛みを生む。</p>
 
           <p>それを知った今、祈りは停止できない。</p>
           <p>
