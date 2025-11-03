@@ -1,21 +1,93 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google" content="notranslate" />
+    <meta name="author" content="Yuto Gushiken" />
+    <meta name="copyright" content="© 2023–2025 Gushiken Design / NOAH Project" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0b0b0c" />
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google" content="notranslate" />
-  <meta name="author" content="Yuto Gushiken">
-<meta name="copyright" content="© 2023–2025 Gushiken Design / NOAH Project">
-<meta name="robots" content="index, follow">
-  <title>noah-s2</title>
-</head>
+    <title>NOAH S2 | 光と記憶の断章</title>
 
-<body>
-  <div id="preload-cover"></div>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-</body>
+    <!-- 🔹 Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
 
+    <!-- 🔹 Google Fonts プリコネクト -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1&family=Cormorant+Garamond:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- 🔹 背景画像プリロード（初回読み込みを速く） -->
+    <link rel="preload" as="image" href="/images/ch1-lab-morning.jpg" />
+    <link rel="preload" as="image" href="/images/ch2-glass-sunset.jpg" />
+    <link rel="preload" as="image" href="/images/ch3-lab-night.jpg" />
+    <link rel="preload" as="image" href="/images/ch3-heart-glitch.jpg" />
+    <link rel="preload" as="image" href="/images/noah-visual.jpg" />
+
+    <!-- 🔹 CSSでちらつき防止 -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        color-scheme: dark;
+        -webkit-font-smoothing: antialiased;
+      }
+      #preload-cover {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.6s ease;
+      }
+      body.ready #preload-cover {
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="preload-cover"></div>
+    <div id="root"></div>
+
+    <script>
+      /* 🔹 初期フェードアウト制御 */
+      window.addEventListener("load", () => {
+        document.body.classList.add("ready");
+        setTimeout(() => {
+          const cover = document.getElementById("preload-cover");
+          if (cover) cover.remove();
+        }, 800);
+      });
+
+      /* 🔹 章画像プリフェッチ（非同期で次章を読み込む） */
+      const prefetchImages = [
+        "/images/ch1-lab-morning.jpg",
+        "/images/ch2-glass-sunset.jpg",
+        "/images/ch3-lab-night.jpg",
+        "/images/ch3-heart-glitch.jpg",
+        "/images/noah-visual.jpg",
+        "/images/ch4-future-lab.jpg",
+        "/images/afterword-fallback.jpg"
+      ];
+      window.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          prefetchImages.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+          });
+        }, 1200); // 初期演出後に非同期ロード
+      });
+    </script>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
