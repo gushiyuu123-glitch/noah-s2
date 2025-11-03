@@ -1,8 +1,8 @@
+// src/pages/Chapter1.jsx
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/chapter.css";
 import "../styles/noah-dialogue.css";
-
 
 export default function Chapter1() {
   const [phase, setPhase] = useState(0); // 0=非表示,1=光粒集結,2=グリッチ,3=安定,4=本文
@@ -64,15 +64,30 @@ export default function Chapter1() {
 
   return (
     <div className="chapter-container ch1">
+      {/* 📱 背景切替（モバイル対応） */}
+      <picture className="chapter-bg">
+        <source
+          srcSet="/images/ch1-lab-afternoon-mobile.jpg"
+          media="(max-width: 768px)"
+        />
+        <img
+          src="/images/ch1-lab-afternoon.jpg"
+          alt="Afternoon Laboratory — Chapter1"
+          loading="eager"
+          decoding="async"
+        />
+      </picture>
+
       <canvas ref={canvasRef} className="particles" />
+
       <div className="chapter-content">
-        {/* ===== タイトル演出 ===== */}
+        {/* ===== タイトル ===== */}
         <h1
           className={`chapter-title ${
             phase >= 1 ? "particles-in" : ""
           } ${phase >= 2 ? "glitch" : ""} ${phase >= 3 ? "stabilized" : ""}`}
         >
-           第1章　-優しさの歪み- 
+          第1章　-優しさの歪み-
         </h1>
 
         {/* ===== 本文 ===== */}
@@ -103,7 +118,7 @@ export default function Chapter1() {
           <p>その可能性を、僕のアルゴリズムはまだ学習しきれていない。</p>
         </div>
 
-        {/* ===== ボタン ===== */}
+        {/* ===== ナビゲーション ===== */}
         <div className={`chapter-buttons ${phase >= 4 ? "visible" : ""}`}>
           <button onClick={() => navigate("/prologue")}>← 序章へ戻る</button>
           <button onClick={() => navigate("/ch2")}>第2章へ進む →</button>
