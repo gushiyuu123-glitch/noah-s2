@@ -1,5 +1,5 @@
 /* =============================
-   🌒 CHAPTER 02 – 正義の罠（最適化版）
+   🌒 CHAPTER 02 – 正義の罠（最適化版＋フェード）
    ============================= */
 
 .chapter-container.ch2 {
@@ -12,11 +12,12 @@
   padding: 12vh 0 8vh;
 }
 
-/* === 背景（pictureタグ対応） === */
+/* === 背景 === */
 .chapter-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  background-color: #000; /* 黒チラ防止 */
 }
 .chapter-bg img {
   width: 100%;
@@ -24,10 +25,17 @@
   object-fit: cover;
   object-position: center center;
   filter: brightness(0.78) contrast(1.05);
-  transition: filter 1s ease;
+  transition: opacity 1s ease, filter 1s ease;
+  opacity: 1;
+}
+.preload {
+  opacity: 0;
+}
+.fade-in {
+  opacity: 1;
 }
 
-/* === 背景のトーンレイヤー === */
+/* === トーンレイヤー === */
 .chapter-container.ch2::before {
   content: "";
   position: absolute;
@@ -59,7 +67,7 @@ canvas.particles {
   padding: 0 2rem;
 }
 
-/* === タイトル演出 === */
+/* === タイトル === */
 .chapter-title {
   opacity: 0;
   font-size: 1.7rem;
@@ -69,15 +77,11 @@ canvas.particles {
   transform: scale(0.9);
   transition: all 1.2s ease;
 }
-
-/* 集束フェーズ */
 .chapter-title.gather {
   opacity: 1;
   transform: scale(1);
   text-shadow: 0 0 18px rgba(255, 120, 120, 0.45);
 }
-
-/* ノイズ閃光フェーズ */
 .chapter-title.glitch {
   opacity: 1;
   color: #ffefef;
@@ -87,8 +91,6 @@ canvas.particles {
     2px 0 rgba(255, 200, 200, 0.6),
     -2px 0 rgba(180, 240, 255, 0.6);
 }
-
-/* 安定フェーズ */
 .chapter-title.stable {
   opacity: 1;
   color: #fff;
@@ -101,7 +103,6 @@ canvas.particles {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.03); opacity: 0.85; }
 }
-
 @keyframes glowPulse2 {
   0%, 100% { text-shadow: 0 0 14px rgba(255, 200, 200, 0.25); }
   50% { text-shadow: 0 0 26px rgba(255, 200, 200, 0.45); }
@@ -120,9 +121,7 @@ canvas.particles {
   opacity: 1;
   transform: translateY(0);
 }
-.chapter-text p {
-  margin-bottom: 1.2rem;
-}
+.chapter-text p { margin-bottom: 1.2rem; }
 
 /* === ノアのセリフ === */
 .noah {
@@ -162,7 +161,7 @@ canvas.particles {
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
 
-/* === スマホ対応 === */
+/* === モバイル対応 === */
 @media (max-width: 768px) {
   .chapter-bg img {
     object-position: center top;
@@ -178,6 +177,11 @@ canvas.particles {
     font-size: 0.95rem;
     line-height: 1.9;
     padding: 0 1.4rem;
+  }
+
+  .chapter-buttons {
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .chapter-buttons button {

@@ -6,6 +6,7 @@ import "../styles/chapter2.css";
 export default function Chapter2() {
   const [phase, setPhase] = useState(0);
   const [showText, setShowText] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
@@ -22,8 +23,14 @@ export default function Chapter2() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    let particles = [];
-    const num = 80;
+    const particles = Array.from({ length: 80 }).map(() => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: Math.random() * 1.2 + 0.4,
+      alpha: Math.random() * 0.4 + 0.2,
+      speedY: Math.random() * 0.3 + 0.05,
+      color: Math.random() > 0.7 ? "rgba(255,90,90," : "rgba(255,255,255,",
+    }));
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -31,17 +38,6 @@ export default function Chapter2() {
     };
     resize();
     window.addEventListener("resize", resize);
-
-    for (let i = 0; i < num; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.2 + 0.4,
-        alpha: Math.random() * 0.4 + 0.2,
-        speedY: Math.random() * 0.3 + 0.05,
-        color: Math.random() > 0.7 ? "rgba(255,90,90," : "rgba(255,255,255,",
-      });
-    }
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -56,12 +52,13 @@ export default function Chapter2() {
       requestAnimationFrame(draw);
     };
     draw();
+
     return () => window.removeEventListener("resize", resize);
   }, []);
 
   return (
     <div className="chapter-container ch2">
-      {/* 📱 背景切替（PC/SP対応・高速読込） */}
+      {/* 🎨 背景（PC/SP最適化＋フェードイン） */}
       <picture className="chapter-bg">
         <source
           srcSet="/images/ch2-glass-sunset-mobile.jpg"
@@ -70,8 +67,11 @@ export default function Chapter2() {
         <img
           src="/images/ch2-glass-sunset.jpg"
           alt="Evening Laboratory — Chapter2"
-          loading="auto"
+          loading="eager"
           decoding="sync"
+          fetchpriority="high"
+          onLoad={() => setImgLoaded(true)}
+          className={imgLoaded ? "fade-in" : "preload"}
           style={{
             contentVisibility: "auto",
             containIntrinsicSize: "100vh",
