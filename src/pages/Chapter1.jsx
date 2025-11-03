@@ -64,7 +64,7 @@ export default function Chapter1() {
 
   return (
     <div className="chapter-container ch1">
-      {/* 📱 背景切替（モバイル対応） */}
+      {/* 📱 背景切替（モバイル対応 + 読み込み最適化） */}
       <picture className="chapter-bg">
         <source
           srcSet="/images/ch1-lab-afternoon-mobile.jpg"
@@ -73,8 +73,12 @@ export default function Chapter1() {
         <img
           src="/images/ch1-lab-afternoon.jpg"
           alt="Afternoon Laboratory — Chapter1"
-          loading="eager"
-          decoding="async"
+          loading="auto"        // ← eager → auto（優先度をブラウザ任せ）
+          decoding="sync"       // ← async → sync（同時デコードで表示即化）
+          style={{
+            contentVisibility: "auto",
+            containIntrinsicSize: "100vh", // ← レイアウト先読み
+          }}
         />
       </picture>
 
