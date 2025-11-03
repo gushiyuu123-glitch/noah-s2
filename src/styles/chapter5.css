@@ -1,26 +1,49 @@
 /* =============================
-   🌑 CHAPTER 05 – 光の影法則
+   🌑 CHAPTER 05 – 光の影法則（WebP対応版）
    ============================= */
-
 .ch5 {
-  background: url("/images/ch5-lab-blue.jpg") center/cover no-repeat fixed;
   position: relative;
   overflow: hidden;
+  background: url("/images/ch5-lab-blue.webp") center/cover no-repeat fixed;
+  background-color: #0b0c10;
   transition: background-image 6s ease-in-out;
 }
-.ch5.phase-2 {
-  background-image: url("/images/ch5-lab-red.jpg");
+
+/* JPGフォールバック */
+@supports not (background-image: url("image.webp")) {
+  .ch5 {
+    background: url("/images/ch5-lab-blue.jpg") center/cover no-repeat fixed;
+  }
 }
+
+/* 赤フェーズ */
+.ch5.phase-2 {
+  background-image: url("/images/ch5-lab-red.webp");
+}
+@supports not (background-image: url("image.webp")) {
+  .ch5.phase-2 {
+    background-image: url("/images/ch5-lab-red.jpg");
+  }
+}
+
+/* 白光フェーズ */
 .ch5.phase-5 {
-  background-image: url("/images/ch5-lab-red.jpg");
+  background-image: url("/images/ch5-lab-red.webp");
   transition: background-image 7s ease-in-out;
 }
+@supports not (background-image: url("image.webp")) {
+  .ch5.phase-5 {
+    background-image: url("/images/ch5-lab-red.jpg");
+  }
+}
+
 /* 文章はフェードアウトしない！ */
 .chapter-text.visible {
   opacity: 1;
   transform: translateY(0);
   transition: all 1.8s ease;
 }
+
 /* =============================
    GLITCH BACKGROUND
    ============================= */
@@ -33,14 +56,19 @@
   opacity: 0.3;
   transition: opacity 1.6s ease;
 }
+
 .ch5.phase-3 .glitch-bg {
   opacity: 0.6;
   animation: bgPulse5 2.5s infinite ease-in-out;
 }
 
 @keyframes bgPulse5 {
-  0%, 100% { filter: brightness(0.9) contrast(1.1); }
-  50% { filter: brightness(1.1) contrast(1.4); }
+  0%, 100% {
+    filter: brightness(0.9) contrast(1.1);
+  }
+  50% {
+    filter: brightness(1.1) contrast(1.4);
+  }
 }
 
 /* =============================
@@ -72,9 +100,7 @@
 
 .glitching {
   color: #ff6b6b;
-  text-shadow:
-    -1px 0 1px rgba(255, 80, 80, 0.9),
-     1px 0 1px rgba(100, 180, 255, 0.8);
+  text-shadow: -1px 0 1px rgba(255, 80, 80, 0.9), 1px 0 1px rgba(100, 180, 255, 0.8);
   animation: textGlitch5 0.3s infinite;
 }
 
@@ -100,6 +126,7 @@
   text-shadow: 0 0 14px rgba(255, 255, 255, 0.15);
   z-index: 2;
 }
+
 .chapter-text.visible {
   opacity: 1;
   transform: translateY(0);
@@ -129,8 +156,14 @@
 }
 
 @keyframes thoughtPulse5 {
-  0%, 100% { opacity: 1; text-shadow: 0 0 18px rgba(230, 200, 255, 0.5); }
-  50% { opacity: 0.85; text-shadow: 0 0 30px rgba(255, 255, 255, 0.6); }
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 18px rgba(230, 200, 255, 0.5);
+  }
+  50% {
+    opacity: 0.85;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+  }
 }
 
 .noah-thought.final {
@@ -150,6 +183,7 @@
   margin: 4rem 0 10rem;
   transition: all 2s ease;
 }
+
 .chapter-buttons.visible {
   opacity: 1;
   transform: translateY(0);
@@ -166,6 +200,7 @@
   letter-spacing: 0.05em;
   transition: all 0.4s ease;
 }
+
 .chapter-buttons button:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: translateY(-3px);

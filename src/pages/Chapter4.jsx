@@ -6,6 +6,7 @@ import "../styles/chapter4.css"; // 章固有スタイル
 export default function Chapter4() {
   const [phase, setPhase] = useState(0); // 0:待機 1:冷青Pulse 2:赤グリッチ 3:安定 4:本文
   const [whiteout, setWhiteout] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
@@ -105,6 +106,34 @@ export default function Chapter4() {
 
   return (
     <div className="chapter-container ch4">
+      {/* === 背景（WebP優先 + JPGフォールバック） === */}
+      <picture className="chapter-bg">
+        <source
+          srcSet="/images/ch4-rain-conflict-mobile.webp"
+          type="image/webp"
+          media="(max-width: 768px)"
+        />
+        <source
+          srcSet="/images/ch4-rain-conflict.webp"
+          type="image/webp"
+          media="(min-width: 769px)"
+        />
+        <img
+          src="/images/ch4-rain-conflict.jpg"
+          alt="Boundary Collapse — Chapter 4"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          onLoad={() => setImgLoaded(true)}
+          className={imgLoaded ? "fade-in" : "preload"}
+          style={{
+            contentVisibility: "auto",
+            containIntrinsicSize: "100vh",
+            transition: "opacity 0.5s ease",
+          }}
+        />
+      </picture>
+
       <canvas ref={canvasRef} className="particles" />
       <div className={`whiteout ${whiteout ? "on" : ""}`} />
 
@@ -118,7 +147,7 @@ export default function Chapter4() {
             phase === 3 ? "stable-cold" : "",
           ].join(" ")}
         >
-           第4章　-境界の崩壊-
+          第4章　-境界の崩壊-
         </h1>
 
         {/* ===== 本文 ===== */}

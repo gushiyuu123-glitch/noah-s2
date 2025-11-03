@@ -16,7 +16,7 @@ export default function Chapter5() {
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase(1), 400),    // 青静寂
-      setTimeout(() => setPhase(2), 3000),   // 赤侵食
+      setTimeout(() => setPhase(2), 4000),   // 赤侵食
       setTimeout(() => setPhase(3), 7200),   // 覚醒振動
       setTimeout(() => setPhase(4), 9800),   // 本文
       setTimeout(() => setPhase(5), 29800),  // 白光フェード（文章は残す）

@@ -7,18 +7,29 @@
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background: url("/images/ch3-lab-night.jpg") center center / cover no-repeat fixed;
+  background-color: #000; /* 黒チラ防止の裏地 */
+  background-image: url("/images/ch3-lab-night.webp"); /* ← webp化 */
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   font-family: "Shippori Mincho B1", "Cormorant Garamond", serif;
   color: #f8f8f8;
   padding: 12vh 0 8vh;
-  transition: background 1.2s ease;
 }
 
+/* ===== フラッシュ演出（心拍同期） ===== */
 .chapter-container.ch3.flash-active {
-  background: url("/images/ch3-heart-glitch.jpg") center center / cover no-repeat fixed;
-  transition: background 0.6s ease-in-out;
+  background-image: url("/images/ch3-heart-glitch.webp"); /* ← webp化 */
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* transition 削除で黒フラ防止 */
+  filter: brightness(1.08) contrast(1.05) saturate(1.1);
 }
 
+/* ===== 暗幕 ===== */
 .chapter-container.ch3::before {
   content: "";
   position: absolute;
@@ -27,6 +38,7 @@
   z-index: 0;
 }
 
+/* ===== 粒子キャンバス ===== */
 canvas.particles {
   position: absolute;
   inset: 0;
@@ -145,9 +157,8 @@ canvas.particles {
   background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
-/* =============================
-   🕯 TITLE 共通仕様（全章共通）
-   ============================= */
+
+/* ===== TITLE 共通仕様 ===== */
 .chapter-title {
   opacity: 1 !important;
   visibility: visible;
