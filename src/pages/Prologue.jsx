@@ -58,20 +58,27 @@ export default function Prologue() {
 
   return (
     <div className="prologue-container">
-      {/* 🎨 背景切替 — PC/スマホ対応（高速ロード対応） */}
+      {/* 🎨 背景切替 — WebP優先 + フォールバック */}
       <picture className="prologue-bg">
+        {/* 📱 モバイル用 WebP */}
         <source
-          srcSet="/images/prologue-lab-morning-mobile.jpg"
+          srcSet="/images/prologue-lab-morning-mobile.webp"
+          type="image/webp"
           media="(max-width: 768px)"
-          fetchpriority="low"      // 📱モバイル画像を後回し
-          loading="lazy"
         />
+        {/* 💻 PC用 WebP */}
+        <source
+          srcSet="/images/prologue-lab-morning.webp"
+          type="image/webp"
+          media="(min-width: 769px)"
+        />
+        {/* 🖼 JPGフォールバック */}
         <img
           src="/images/prologue-lab-morning.jpg"
           alt="Morning Laboratory — Prologue"
           loading="eager"
           decoding="async"
-          fetchpriority="high"     // 💻PC版画像を最優先ロード
+          fetchpriority="high"
           style={{ opacity: 1, transition: "opacity 0.4s ease" }}
           onLoad={(e) => (e.target.style.opacity = 1)}
         />
