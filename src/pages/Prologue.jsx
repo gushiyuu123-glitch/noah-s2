@@ -18,7 +18,7 @@ export default function Prologue() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // ===== 光粒エフェクト（Canvas） =====
+  // ===== 光粒エフェクト =====
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -58,8 +58,24 @@ export default function Prologue() {
 
   return (
     <div className="prologue-container">
-      {/* ✨ 背景はCSSで制御（img削除済み） */}
+      {/* 🎨 背景切替 — PC/スマホ対応 */}
+      <picture className="prologue-bg">
+        <source
+          srcSet="/images/prologue-lab-morning-mobile.jpg"
+          media="(max-width: 768px)"
+        />
+        <img
+          src="/images/prologue-lab-morning.jpg"
+          alt="Morning Laboratory — Prologue"
+          loading="eager"
+          decoding="async"
+        />
+      </picture>
+
+      {/* 白光エフェクト */}
       <div className={`prologue-overlay ${phase >= 1 ? "fade-in" : ""}`} />
+
+      {/* 粒子キャンバス */}
       <canvas ref={canvasRef} className="prologue-particles" />
 
       {/* ===== テキスト群 ===== */}
@@ -67,7 +83,7 @@ export default function Prologue() {
         <h1
           className={`prologue-title ${phase >= 2 ? "visible glitch" : ""}`}
         >
-           序章　白い再起動 — ノアの記録より
+          序章　白い再起動 — ノアの記録より
         </h1>
 
         <div className={`prologue-text ${phase >= 3 ? "visible" : ""}`}>

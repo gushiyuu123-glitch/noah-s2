@@ -1,5 +1,5 @@
 /* =============================
-   🌅 PROLOGUE – 朝の再起動（完全版）
+   🌅 PROLOGUE – 朝の再起動（PC+SP対応版）
    ============================= */
 
 .prologue-container {
@@ -12,45 +12,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* ✅ 背景画像（Viteでは /images/ でOK） */
-  background: url("/images/prologue-lab-morning.jpg") center 40% / cover no-repeat;
-  background-color: #000;
 }
 
-/* ===== 背景の光フィルター（視認性アップ版） ===== */
+/* 🎨 背景（<picture>タグ対応） */
+.prologue-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.prologue-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: brightness(0.75) blur(1.2px); /* ✅ PC版：光量を約15%落とす */
+  transition: filter 1s ease;
+}
+
+/* ===== 背景フィルター層 ===== */
 .prologue-container::before {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(10, 15, 20, 0.38) 0%,   /* 上：暗さを軽減（0.55→0.38） */
-    rgba(10, 15, 20, 0.22) 35%,  /* 中：光を多く通す */
-    rgba(15, 20, 25, 0.42) 100%  /* 下：文字保護は維持 */
+    rgba(10, 15, 20, 0.4) 0%,
+    rgba(10, 15, 20, 0.25) 35%,
+    rgba(15, 20, 25, 0.5) 100%
   );
-  /* ✅ ぼかしを軽減 */
-  backdrop-filter: blur(0.3px);
-  z-index: 0;
-}
-
-/* ===== コントラスト補強レイヤー（新規追加） ===== */
-.prologue-container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(255, 255, 255, 0.03) 100%
-  );
-  mix-blend-mode: overlay;
-  pointer-events: none;
   z-index: 1;
-  opacity: 0.6;
 }
-
-
 
 /* ===== 再起動の白光エフェクト ===== */
 .prologue-overlay {
@@ -59,26 +50,16 @@
   background: radial-gradient(circle at 50% 50%, #ffffff 0%, #eaeaea 35%, #0b0c10 100%);
   opacity: 0;
   transition: opacity 1.6s ease;
+  z-index: 2;
 }
-
 .prologue-overlay.fade-in {
-  opacity: 0.35;
-  /* ← 0.45 → 0.35 に調整 */
+  opacity: 0.3;
   animation: pulseLight 8s ease-in-out infinite alternate;
 }
 
 @keyframes pulseLight {
-
-  0%,
-  100% {
-    opacity: 0.25;
-  }
-
-  50% {
-    opacity: 0.4;
-  }
-
-  /* ← 光の息づかいが自然に */
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.35; }
 }
 
 /* ===== 光の粒子 ===== */
@@ -87,19 +68,21 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 3;
   pointer-events: none;
 }
 
-/* ===== コンテンツ全体 ===== */
+/* ===== コンテンツ ===== */
 .prologue-content {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   text-align: center;
   padding: 0 1.5rem;
   max-width: 640px;
-  top: 50%;
-  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
 /* ===== タイトル ===== */
@@ -108,36 +91,13 @@
   transform: translateY(1.5rem);
   transition: all 1.2s ease;
   font-size: 1.6rem;
-  letter-spacing: 0.06em;
-  color: #ffffff;
+  color: #fff;
   text-shadow: 0 0 14px rgba(0, 0, 0, 0.3);
   margin-bottom: 2.5rem;
 }
-
 .prologue-title.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* タイトルの微グリッチ効果 */
-.prologue-title.glitch {
-  animation: glitchNoise 3s infinite linear alternate;
-}
-
-@keyframes glitchNoise {
-  0% {
-    text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
-  }
-
-  50% {
-    text-shadow: 0 0 14px rgba(160, 220, 255, 0.9);
-    filter: hue-rotate(8deg);
-  }
-
-  100% {
-    text-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
-    filter: hue-rotate(0deg);
-  }
 }
 
 /* ===== 本文 ===== */
@@ -145,52 +105,14 @@
   opacity: 0;
   transform: translateY(2rem);
   transition: all 1.6s ease 0.6s;
-  line-height: 2.4;
+  line-height: 2.3;
   font-size: 1.05rem;
-  color: #eeeeee;
-  white-space: normal;
+  color: #eee;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
-.prologue-text,
-.prologue-title {
-  text-shadow:
-    0 0 6px rgba(0, 0, 0, 0.8),
-    0 0 18px rgba(0, 0, 0, 0.5); /* ✅ コントラスト補正 */
-}
-
 .prologue-text.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* ===== キャラ発話色 ===== */
-.noah {
-  color: #b9ebff;
-  text-shadow: 0 0 8px rgba(160, 230, 255, 0.6);
-  font-style: italic;
-}
-
-.arata {
-  color: #f5e8cc;
-  text-shadow: 0 0 6px rgba(255, 240, 210, 0.4);
-  font-style: italic;
-}
-
-.mina {
-  color: #ffd6e0;
-  text-shadow: 0 0 6px rgba(255, 180, 200, 0.5);
-  font-style: italic;
-}
-
-
-@keyframes drift {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 100% 100%;
-  }
 }
 
 /* ===== ボタン ===== */
@@ -199,63 +121,28 @@
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff;
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.05rem;
+  font-size: 1rem;
   padding: 0.6rem 1.8rem;
   border-radius: 2rem;
-  letter-spacing: 0.05em;
-  opacity: 0;
-  transform: translateY(1.5rem);
-  transition: all 1.2s ease;
+  transition: all 0.4s ease;
   cursor: pointer;
   backdrop-filter: blur(8px);
 }
-
-.next-btn.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .next-btn:hover {
   background: rgba(255, 255, 255, 0.18);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
 
-/* ===== コンテンツ中央揃え（正確なセンタリング） ===== */
-.prologue-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* ← 完全中央揃え */
-  align-items: center;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  padding: 0 1.5rem;
-  padding-top: 5vh;
-  /* ← 中央より少し上に浮かせる */
-  max-width: 640px;
-  margin: 0 auto;
-  transform: none;
-  /* ← translateY削除 */
-  top: 0;
-  /* ← 無効化 */
-}/* ===== スマホでの背景・光量調整 ===== */
+/* ===== スマホ最適化 ===== */
 @media (max-width: 768px) {
-  .prologue-container {
-    background-position: center 60%;
-    background-size: cover;
-  }
-
-  .prologue-overlay.fade-in {
-    opacity: 0.25; /* スマホでは光を控えめに */
+  .prologue-bg img {
+    object-position: center top;
+    filter: brightness(0.55) blur(0.8px); /* 📱暗さ＋軽いブラーで奥行き維持 */
   }
 
   .prologue-title {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 1.8rem;
   }
 
   .prologue-text {
@@ -267,89 +154,5 @@
   .next-btn {
     font-size: 0.9rem;
     padding: 0.5rem 1.4rem;
-  }
-}
-/* ======================================
-   📱 NOAH Season 2 Responsive Optimization
-   ====================================== */
-
-/* ===== 基本設定 ===== */
-html, body {
-  overflow-x: hidden;
-  width: 100%;
-  -webkit-text-size-adjust: 100%;
-  font-size: 16px;
-}
-
-/* ===== Tablet ===== */
-@media (max-width: 1024px) {
-  body {
-    font-size: 15px;
-    line-height: 1.9;
-  }
-}
-
-/* ===== Smartphone ===== */
-@media (max-width: 768px) {
-  body {
-    font-size: 14px;
-    line-height: 1.9;
-  }
-
-  section {
-    padding: 3rem 1.5rem;
-  }
-
-  /* 章タイトル */
-  .chapter-title-fixed {
-    font-size: 1.2rem;
-    top: 3%;
-    text-align: center;
-    width: 100%;
-  }
-
-  /* 本文 */
-  .chapter-text {
-    font-size: 0.95rem;
-    line-height: 1.9;
-    letter-spacing: 0.02em;
-    padding: 0 1rem;
-  }
-
-  .chapter-text p {
-    margin-bottom: 1.5rem;
-  }
-
-  /* 次章ボタン */
-  .next-chapter,
-  .next-btn {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.4rem;
-    letter-spacing: 0.05em;
-  }
-
-  /* Prologue / Epilogueの光調整 */
-  .prologue-overlay.fade-in,
-  .epilogue-overlay.fade-in {
-    opacity: 0.25;
-  }
-
-  /* 署名 */
-  .noah-signature {
-    bottom: 0.6rem;
-    right: 0.8rem;
-    font-size: 0.65rem;
-  }
-
-  /* Heroタイトルなど中央寄せ */
-  .prologue-title,
-  .epilogue-title {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  /* 光粒キャンバス */
-  canvas {
-    transform: scale(1.05);
   }
 }
