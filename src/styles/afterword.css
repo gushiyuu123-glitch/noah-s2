@@ -220,30 +220,32 @@ html[data-aw-fallback="1"] .aw-wrap {
   }
 }
 
-/* ノイズ層（漂う粒子感） */
+/* ✨ 軽量ノイズ層（演出維持・画像レス） */
 .aw-noise {
   position: absolute;
   inset: 0;
-  background-image: url("/images/noise-texture.png");
-  background-size: 200px 200px;
-  opacity: 0.08;
-  animation: aw-noise-move 12s linear infinite;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(255,255,255,0.02) 0,
+    rgba(255,255,255,0.02) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  background-size: 120px 120px;
+  opacity: 0.05;
   mix-blend-mode: overlay;
   pointer-events: none;
   z-index: 1;
+  animation: aw-noise-fade 10s ease-in-out infinite alternate;
 }
 
-@keyframes aw-noise-move {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-20px, 15px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+/* ノイズの呼吸（わずかな輝度変化） */
+@keyframes aw-noise-fade {
+  0% { opacity: 0.03; transform: scale(1); }
+  50% { opacity: 0.07; transform: scale(1.02); }
+  100% { opacity: 0.03; transform: scale(1); }
 }
+
 
 /* 既存の光層の下に配置するための順序 */
 .aw-gradients {
