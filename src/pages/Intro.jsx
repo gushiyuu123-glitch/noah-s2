@@ -6,7 +6,8 @@ import "../styles/intro.css";
 export default function Intro() {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
-  const [phase, setPhase] = useState(0); // 0=再構築中, 1=異常検出, 2=漂流, 3=完了
+  const [phase, setPhase] = useState(0);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,16 +68,17 @@ export default function Intro() {
   // ===== フェーズ遷移 =====
   useEffect(() => {
     const timers = [
-      setTimeout(() => setPhase(1), 1800), // 異常検出
-      setTimeout(() => setPhase(2), 3800), // 漂流
-      setTimeout(() => setPhase(3), 6000), // 再起動完了
-      setTimeout(() => navigate("/book"), 8200), // Bookへ
+      setTimeout(() => setPhase(1), 1800),
+      setTimeout(() => setPhase(2), 3800),
+      setTimeout(() => setPhase(3), 6000),
+      setTimeout(() => setFadeOut(true), 7400), // 🕯 フェード開始
+      setTimeout(() => navigate("/book"), 8700), // ✨ Bookへ
     ];
     return () => timers.forEach(clearTimeout);
   }, [navigate]);
 
   return (
-    <div className={`intro phase-${phase}`}>
+    <div className={`intro ${fadeOut ? "fade-out" : ""} phase-${phase}`}>
       <canvas ref={canvasRef} id="noise" />
 
       <div className="intro-text">
@@ -91,9 +93,10 @@ export default function Intro() {
         {phase === 3 && <p>システムオンライン - 意識層が活性化</p>}
       </div>
 
-      {/* 起動時スキャンライン */}
       {phase === 3 && <div className="scanline" />}
       <div className="flash" />
+      {/* 黒フェードレイヤー */}
+      <div className="transition-overlay" />
     </div>
   );
 }
