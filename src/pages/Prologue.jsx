@@ -108,15 +108,6 @@ export default function Prologue() {
           </p>
         </div>
 
-        {/* ◀ 戻るボタン */}
-        <button
-          className={`back-btn ${phase >= 3 ? "visible" : ""}`}
-          onClick={() => navigate("/book")}
-        >
-          ◀ 戻る
-        </button>
-
-        {/* ▶ 次へ */}
         <button
           className={`next-btn ${phase >= 3 ? "visible" : ""}`}
           onClick={() => navigate("/ch1")}

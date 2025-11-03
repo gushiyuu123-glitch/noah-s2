@@ -1,5 +1,5 @@
 /* =============================
-   🌅 PROLOGUE – 朝の再起動（PC+SP対応 完全版）
+   🌅 PROLOGUE – 朝の再起動（PC+SP対応版）
    ============================= */
 
 .prologue-container {
@@ -14,7 +14,7 @@
   align-items: center;
 }
 
-/* 🎨 背景（<picture>対応） */
+/* 🎨 背景（<picture>タグ対応） */
 .prologue-bg {
   position: absolute;
   inset: 0;
@@ -25,7 +25,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center 40%;
-  filter: brightness(0.7) blur(1px); /* 🌙 光量をさらに15%ダウン */
+  filter: brightness(0.75) blur(1.2px); /* ✅ PC版：光量を約15%落とす */
   transition: filter 1s ease;
 }
 
@@ -36,14 +36,14 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(10, 15, 20, 0.45) 0%,
+    rgba(10, 15, 20, 0.4) 0%,
     rgba(10, 15, 20, 0.25) 35%,
     rgba(15, 20, 25, 0.5) 100%
   );
   z-index: 1;
 }
 
-/* ===== 白光エフェクト ===== */
+/* ===== 再起動の白光エフェクト ===== */
 .prologue-overlay {
   position: absolute;
   inset: 0;
@@ -53,15 +53,16 @@
   z-index: 2;
 }
 .prologue-overlay.fade-in {
-  opacity: 0.25;
+  opacity: 0.3;
   animation: pulseLight 8s ease-in-out infinite alternate;
 }
+
 @keyframes pulseLight {
-  0%, 100% { opacity: 0.18; }
-  50% { opacity: 0.3; }
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.35; }
 }
 
-/* ===== 粒子 ===== */
+/* ===== 光の粒子 ===== */
 .prologue-particles {
   position: absolute;
   inset: 0;
@@ -115,49 +116,28 @@
 }
 
 /* ===== ボタン ===== */
-.next-btn,
-.back-btn {
+.next-btn {
+  margin-top: 3rem;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff;
   font-size: 1rem;
+  padding: 0.6rem 1.8rem;
   border-radius: 2rem;
-  backdrop-filter: blur(8px);
   transition: all 0.4s ease;
-  opacity: 0;
-  transform: translateY(1.2rem);
   cursor: pointer;
+  backdrop-filter: blur(8px);
 }
-.next-btn.visible,
-.back-btn.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.next-btn:hover,
-.back-btn:hover {
+.next-btn:hover {
   background: rgba(255, 255, 255, 0.18);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
-}
-
-/* ◀ 戻るボタン */
-.back-btn {
-  position: absolute;
-  bottom: 2rem;
-  left: 2rem;
-  padding: 0.5rem 1.2rem;
-}
-
-/* ▶ 次へボタン */
-.next-btn {
-  margin-top: 3rem;
-  padding: 0.6rem 1.8rem;
 }
 
 /* ===== スマホ最適化 ===== */
 @media (max-width: 768px) {
   .prologue-bg img {
     object-position: center top;
-    filter: brightness(0.55) blur(0.6px); /* 📱光量さらに控えめ */
+    filter: brightness(0.55) blur(0.8px); /* 📱暗さ＋軽いブラーで奥行き維持 */
   }
 
   .prologue-title {
@@ -174,12 +154,5 @@
   .next-btn {
     font-size: 0.9rem;
     padding: 0.5rem 1.4rem;
-  }
-
-  .back-btn {
-    bottom: 1.2rem;
-    left: 1rem;
-    font-size: 0.85rem;
-    padding: 0.4rem 1rem;
   }
 }
