@@ -89,19 +89,24 @@ export default function Chapter3() {
       <canvas ref={canvasRef} className="particles" />
 
       <div className="chapter-content">
-        <h1
-          className={`chapter-title ${
-            phase === 1
-              ? "heartbeat"
-              : phase === 2
-              ? "glitch-red"
-              : phase >= 3
-              ? "stable-red"
-              : ""
-          }`}
-        >
-          第3章　-声なき異変-
-        </h1>
+<h1
+  className={`chapter-title ${
+    phase === 1
+      ? "heartbeat"
+      : phase === 2
+      ? "glitch-red"
+      : phase >= 3
+      ? "stable-red"
+      : ""
+  }`}
+  style={{
+    opacity: phase >= 1 ? 1 : 0, // ✅ 一度でも表示されたらずっと非透過
+    visibility: "visible",
+    transition: "none", // ✅ 再レンダリング時の点滅防止
+  }}
+>
+  第3章　-声なき異変-
+</h1>
 
         <div className={`chapter-text ${phase === 4 ? "visible" : ""}`}>
           <p>夜。研究室の照明が半分だけ落ちている。</p>
