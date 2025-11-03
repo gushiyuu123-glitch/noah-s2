@@ -10,16 +10,18 @@ export default function Chapter2() {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
-  // ===== タイトル演出 =====
+  /* ===== タイトル演出 ===== */
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase(1), 700);
-    const t2 = setTimeout(() => setPhase(2), 1800);
-    const t3 = setTimeout(() => setPhase(3), 2700);
-    const t4 = setTimeout(() => setShowText(true), 3600);
-    return () => [t1, t2, t3, t4].forEach(clearTimeout);
+    const timers = [
+      setTimeout(() => setPhase(1), 700),
+      setTimeout(() => setPhase(2), 1800),
+      setTimeout(() => setPhase(3), 2700),
+      setTimeout(() => setShowText(true), 3600),
+    ];
+    return () => timers.forEach(clearTimeout);
   }, []);
 
-  // ===== 粒子（赤・白ノイズ） =====
+  /* ===== 粒子（赤・白ノイズ） ===== */
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -58,31 +60,42 @@ export default function Chapter2() {
 
   return (
     <div className="chapter-container ch2">
-      {/* 🎨 背景（PC/SP最適化＋フェードイン） */}
+      {/* 🎨 背景（WebP優先＋フォールバック） */}
       <picture className="chapter-bg">
+        {/* 📱 モバイルWebP */}
         <source
-          srcSet="/images/ch2-glass-sunset-mobile.jpg"
+          srcSet="/images/ch2-glass-sunset-mobile.webp"
+          type="image/webp"
           media="(max-width: 768px)"
         />
+        {/* 💻 PC WebP */}
+        <source
+          srcSet="/images/ch2-glass-sunset.webp"
+          type="image/webp"
+          media="(min-width: 769px)"
+        />
+        {/* 🖼 JPGフォールバック */}
         <img
           src="/images/ch2-glass-sunset.jpg"
           alt="Evening Laboratory — Chapter2"
           loading="eager"
-          decoding="sync"
+          decoding="async"
           fetchpriority="high"
           onLoad={() => setImgLoaded(true)}
           className={imgLoaded ? "fade-in" : "preload"}
           style={{
             contentVisibility: "auto",
             containIntrinsicSize: "100vh",
+            transition: "opacity 0.6s ease",
           }}
         />
       </picture>
 
+      {/* ✨ 粒子エフェクト */}
       <canvas ref={canvasRef} className="particles" />
 
+      {/* ===== コンテンツ ===== */}
       <div className="chapter-content">
-        {/* ===== タイトル ===== */}
         <h1
           className={`chapter-title ${
             phase === 1
@@ -97,7 +110,6 @@ export default function Chapter2() {
           第2章　-正義の罠-
         </h1>
 
-        {/* ===== 本文 ===== */}
         <div className={`chapter-text ${showText ? "visible" : ""}`}>
           <p>夕方の研究室。薄い光が影を引き伸ばす。</p>
           <p>アラタは画面に向かい、ミナは報告書をまとめている。</p>
@@ -129,7 +141,6 @@ export default function Chapter2() {
           <p>僕の演算は、その境界線を見つけられていない。</p>
         </div>
 
-        {/* ===== ボタン ===== */}
         <div className={`chapter-buttons ${showText ? "visible" : ""}`}>
           <button onClick={() => navigate("/ch1")}>← 第1章へ戻る</button>
           <button onClick={() => navigate("/ch3")}>第3章へ進む →</button>
