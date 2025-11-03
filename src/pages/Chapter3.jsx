@@ -4,7 +4,7 @@ import "../styles/chapter3.css";
 
 export default function Chapter3() {
   const [phase, setPhase] = useState(0); // 0=非表示,1=心拍,2=グリッチ,3=安定,4=本文
-  const [flash, setFlash] = useState(false); // 背景切り替え（心拍画像）
+  const [flash, setFlash] = useState(false); // 背景切替（心拍画像）
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
@@ -39,7 +39,10 @@ export default function Chapter3() {
       r: Math.random() * 1.6 + 0.3,
       alpha: Math.random() * 0.4 + 0.3,
       speedY: Math.random() * 0.2 + 0.05,
-      color: Math.random() > 0.5 ? "rgba(140,200,255,0.6)" : "rgba(255,80,80,0.6)",
+      color:
+        Math.random() > 0.5
+          ? "rgba(140,200,255,0.6)"
+          : "rgba(255,80,80,0.6)",
     }));
 
     const draw = () => {
@@ -61,6 +64,44 @@ export default function Chapter3() {
 
   return (
     <div className={`chapter-container ch3 ${flash ? "flash-active" : ""}`}>
+      {/* 🎨 背景切替（PC/SP両対応） */}
+      <picture className="chapter-bg">
+        <source
+          srcSet="/images/ch3-lab-night-mobile.jpg"
+          media="(max-width: 768px)"
+        />
+        <img
+          src="/images/ch3-lab-night.jpg"
+          alt="Night Laboratory — Chapter3"
+          loading="auto"
+          decoding="sync"
+          style={{
+            contentVisibility: "auto",
+            containIntrinsicSize: "100vh",
+          }}
+        />
+      </picture>
+
+      {/* ❤️ 心拍フラッシュ時の差し替え背景 */}
+      {flash && (
+        <picture className="chapter-bg flash-layer">
+          <source
+            srcSet="/images/ch3-heart-glitch-mobile.jpg"
+            media="(max-width: 768px)"
+          />
+          <img
+            src="/images/ch3-heart-glitch.jpg"
+            alt="Heartbeat Glitch — Chapter3"
+            loading="auto"
+            decoding="sync"
+            style={{
+              contentVisibility: "auto",
+              containIntrinsicSize: "100vh",
+            }}
+          />
+        </picture>
+      )}
+
       <canvas ref={canvasRef} className="particles" />
 
       <div className="chapter-content">
@@ -76,7 +117,7 @@ export default function Chapter3() {
               : ""
           }`}
         >
-           第3章　-声なき異変-
+          第3章　-声なき異変-
         </h1>
 
         {/* ===== 本文 ===== */}
