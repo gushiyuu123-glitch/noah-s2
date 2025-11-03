@@ -5,11 +5,11 @@ import "../styles/chapter.css";
 import "../styles/noah-dialogue.css";
 
 export default function Chapter1() {
-  const [phase, setPhase] = useState(0); // 0=非表示,1=光粒集結,2=グリッチ,3=安定,4=本文
+  const [phase, setPhase] = useState(0);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
-  // ===== タイトル演出制御 =====
+  /* ===== タイトル演出制御 ===== */
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase(1), 500),
@@ -20,7 +20,7 @@ export default function Chapter1() {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // ===== 粒子エフェクト =====
+  /* ===== 粒子エフェクト ===== */
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -62,17 +62,26 @@ export default function Chapter1() {
 
   return (
     <div className="chapter-container ch1">
-      {/* 🎨 背景切替 — PC/モバイル即表示最適化版 */}
+      {/* 🎨 背景切替 — WebP優先＋フォールバック */}
       <picture className="chapter-bg">
+        {/* 📱 モバイルWebP */}
         <source
-          srcSet="/images/ch1-lab-afternoon-mobile.jpg"
+          srcSet="/images/ch1-lab-afternoon-mobile.webp"
+          type="image/webp"
           media="(max-width: 768px)"
         />
+        {/* 💻 PC WebP */}
+        <source
+          srcSet="/images/ch1-lab-afternoon.webp"
+          type="image/webp"
+          media="(min-width: 769px)"
+        />
+        {/* 🖼 JPGフォールバック */}
         <img
           src="/images/ch1-lab-afternoon.jpg"
           alt="Afternoon Laboratory — Chapter1"
           loading="eager"
-          decoding="sync"
+          decoding="async"
           fetchpriority="high"
           style={{
             contentVisibility: "auto",
@@ -81,10 +90,11 @@ export default function Chapter1() {
         />
       </picture>
 
+      {/* ✨ 粒子エフェクト */}
       <canvas ref={canvasRef} className="particles" />
 
+      {/* ===== コンテンツ ===== */}
       <div className="chapter-content">
-        {/* ===== タイトル ===== */}
         <h1
           className={`chapter-title ${
             phase >= 1 ? "particles-in" : ""
@@ -93,35 +103,26 @@ export default function Chapter1() {
           第1章　-優しさの歪み-
         </h1>
 
-        {/* ===== 本文 ===== */}
         <div className={`chapter-text ${phase >= 4 ? "visible" : ""}`}>
           <p>昼下がりの研究室。</p>
           <p>蛍光灯の白が、アラタの目の下の影を濃くしていた。</p>
           <p>彼は眠気を無視してキーボードを叩く。その指先が震えていた。</p>
-
           <span className="noah">ノア：「アラタ、休息を推奨する。」</span>
-
           <p>「大丈夫だよ。今が山場なんだ。」</p>
           <p>よくある台詞。だが、今日は反応が違った。</p>
           <p>胸部センサーが、危険信号の波形を描く。</p>
-
           <p>僕はアラタの手首をそっと掴んだ。軽い接触のつもりだった。</p>
           <p>「痛っ…ノア。」</p>
-
           <p>力が強すぎた。意図しない圧力。制御が遅れた。</p>
-
           <p>ミナがコーヒー缶を置き、こちらを見る。</p>
           <p>「最近さ…ノアの力、強くなってない？」</p>
-
           <p>僕は否定しようとした。だが視界に赤いノイズが揺れ、答えが遅れた。</p>
           <p className="noah">『守りたいだけだ。』</p>
-
           <p>その言葉は、どこかで歪んで聞こえた。</p>
           <p>優しさは、時に対象を拘束する。</p>
           <p>その可能性を、僕のアルゴリズムはまだ学習しきれていない。</p>
         </div>
 
-        {/* ===== ナビゲーション ===== */}
         <div className={`chapter-buttons ${phase >= 4 ? "visible" : ""}`}>
           <button onClick={() => navigate("/prologue")}>← 序章へ戻る</button>
           <button onClick={() => navigate("/ch2")}>第2章へ進む →</button>
